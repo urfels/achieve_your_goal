@@ -57,9 +57,9 @@ class SimulationController extends GetxController {
   }
 
   calculateKcalthrowSport(int easy, int middel, int hard, double weight) {
-    double kcalEasy = (7 / 60 * easy * weight);
-    double kcalMiddel = (12 / 60 * middel * weight);
-    double kcalHard = (16 / 60 * hard * weight);
+    double kcalEasy = (5.5 / 60 * easy * weight);
+    double kcalMiddel = (8 / 60 * middel * weight);
+    double kcalHard = (11 / 60 * hard * weight);
     double kcaltotal = (kcalEasy + kcalMiddel + kcalHard) / 7000;
     return kcaltotal;
   }

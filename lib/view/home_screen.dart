@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:achieve_your_goal/controller/home_controller.dart';
 import 'package:achieve_your_goal/view/simulation_screen.dart';
 import 'package:flutter/material.dart';
@@ -159,66 +161,93 @@ class HomeScreen extends StatelessWidget {
                         Container(
                             padding: const EdgeInsets.only(top: 20),
                             width: 320,
-                            child: TextFormField(
-                              controller: _trainingEasyController,
-                              validator: (String? value) {
-                                if (value == null || value.isEmpty) {
-                                  return 'Bitte tragen Sie einen Wert ein';
-                                }
-                                return null;
-                              },
-                              inputFormatters: <TextInputFormatter>[
-                                FilteringTextInputFormatter.allow(
-                                    RegExp(r'[0-9]'))
-                              ],
-                              decoration: const InputDecoration(
-                                  labelText: 'Training leicht in min',
-                                  fillColor: Colors.white,
-                                  filled: true,
-                                  border: OutlineInputBorder()),
-                            )),
+                            child: Tooltip(
+                                textStyle: const TextStyle(
+                                  fontSize: 14,
+                                ),
+                                decoration: BoxDecoration(
+                                  color: Colors.blue.withOpacity(0.9),
+                                ),
+                                message:
+                                    'Badminton, Softball,Tanzen(normal), Crosstrainer(langsam), Krafttrainig(mäßig), Wandern, Basketball, Radfahren(17km/h)',
+                                child: TextFormField(
+                                  controller: _trainingEasyController,
+                                  validator: (String? value) {
+                                    if (value == null || value.isEmpty) {
+                                      return 'Bitte tragen Sie einen Wert ein';
+                                    }
+                                    return null;
+                                  },
+                                  inputFormatters: <TextInputFormatter>[
+                                    FilteringTextInputFormatter.allow(
+                                        RegExp(r'[0-9]'))
+                                  ],
+                                  decoration: const InputDecoration(
+                                      labelText: 'Training leicht in min',
+                                      fillColor: Colors.white,
+                                      filled: true,
+                                      border: OutlineInputBorder()),
+                                ))),
                         Container(
                             padding: const EdgeInsets.only(top: 20),
                             width: 320,
-                            child: TextFormField(
-                              controller: _trainingMiddelController,
-                              validator: (String? value) {
-                                if (value == null || value.isEmpty) {
-                                  return 'Bitte tragen Sie einen Wert ein.';
-                                }
-                                return null;
-                              },
-                              inputFormatters: <TextInputFormatter>[
-                                FilteringTextInputFormatter.allow(
-                                    RegExp(r'[0-9]'))
-                              ],
-                              decoration: const InputDecoration(
-                                  labelText: 'Training moderat in min',
-                                  fillColor: Colors.white,
-                                  filled: true,
-                                  border: OutlineInputBorder()),
-                            )),
+                            child: Tooltip(
+                                textStyle: const TextStyle(
+                                  fontSize: 14,
+                                ),
+                                decoration: BoxDecoration(
+                                  color: Colors.blue.withOpacity(0.9),
+                                ),
+                                message:
+                                    'Calisthenics, Schwimmen(mäßig), Seilspringen(langsam), Fußball, Joggen(8km/h), Radfahren(21km/h), Handball, Tennis',
+                                child: TextFormField(
+                                  controller: _trainingMiddelController,
+                                  validator: (String? value) {
+                                    if (value == null || value.isEmpty) {
+                                      return 'Bitte tragen Sie einen Wert ein.';
+                                    }
+                                    return null;
+                                  },
+                                  inputFormatters: <TextInputFormatter>[
+                                    FilteringTextInputFormatter.allow(
+                                        RegExp(r'[0-9]'))
+                                  ],
+                                  decoration: const InputDecoration(
+                                      labelText: 'Training moderat in min',
+                                      fillColor: Colors.white,
+                                      filled: true,
+                                      border: OutlineInputBorder()),
+                                ))),
                         Container(
                             padding: const EdgeInsets.only(top: 20),
                             width: 320,
-                            child: TextFormField(
-                              controller: _trainingHardController,
-                              validator: (String? value) {
-                                if (value == null || value.isEmpty) {
-                                  return 'Bitte tragen Sie einen Wert ein';
-                                }
-                                return null;
-                              },
-                              inputFormatters: <TextInputFormatter>[
-                                FilteringTextInputFormatter.allow(
-                                    RegExp(r'[0-9]'))
-                              ],
-                              decoration: const InputDecoration(
-                                  labelText: 'Training intensiv in min',
-                                  fillColor: Colors.white,
-                                  filled: true,
-                                  border: OutlineInputBorder()),
-                            )),
+                            child: Tooltip(
+                                textStyle: const TextStyle(
+                                  fontSize: 14,
+                                ),
+                                decoration: BoxDecoration(
+                                  color: Colors.blue.withOpacity(0.9),
+                                ),
+                                message:
+                                    'Seilspringen(moderat), Schwimmen(schnell), Laufen(11km/h), Boxen, Radfahren(26km/h)',
+                                child: TextFormField(
+                                  controller: _trainingHardController,
+                                  validator: (String? value) {
+                                    if (value == null || value.isEmpty) {
+                                      return 'Bitte tragen Sie einen Wert ein';
+                                    }
+                                    return null;
+                                  },
+                                  inputFormatters: <TextInputFormatter>[
+                                    FilteringTextInputFormatter.allow(
+                                        RegExp(r'[0-9]'))
+                                  ],
+                                  decoration: const InputDecoration(
+                                      labelText: 'Training intensiv in min',
+                                      fillColor: Colors.white,
+                                      filled: true,
+                                      border: OutlineInputBorder()),
+                                ))),
                         Container(
                             margin: const EdgeInsets.only(top: 30),
                             child: Center(

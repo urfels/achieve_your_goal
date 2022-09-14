@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:achieve_your_goal/controller/home_controller.dart';
 import 'package:achieve_your_goal/view/simulation_screen.dart';
 import 'package:flutter/material.dart';

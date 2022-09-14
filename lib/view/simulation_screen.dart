@@ -10,6 +10,15 @@ class SimulationScreen extends StatelessWidget {
   final _adjustFormKey = GlobalKey<FormState>();
   final RxInt tage = 0.obs;
   final Rx<Person> person;
+  final RxInt colorIndex = 0.obs;
+  final RxInt imageIndex = 0.obs;
+  final List<Color> containerColor = [
+    Colors.red,
+    Colors.orange,
+    Colors.yellow,
+    Colors.green
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,10 +36,11 @@ class SimulationScreen extends StatelessWidget {
                   child: Column(children: <Widget>[
                     Expanded(
                         flex: 1,
-                        child: Container(
+                        child: Obx(() => AnimatedContainer(
                             width: double.infinity,
                             margin: const EdgeInsets.fromLTRB(30, 0, 30, 0),
-                            color: Colors.white,
+                            color: containerColor[colorIndex.value],
+                            duration: const Duration(seconds: 1),
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: <Widget>[
@@ -39,7 +49,7 @@ class SimulationScreen extends StatelessWidget {
                                 Obx(() => Text('BMI: ${person.value.bmi} ')),
                                 Obx(() => Text('Tage:  ${tage.value}')),
                               ],
-                            ))),
+                            )))),
                     Expanded(
                         flex: 1,
                         child: Container(
@@ -47,7 +57,8 @@ class SimulationScreen extends StatelessWidget {
                             width: double.infinity,
                             child: ElevatedButton(
                                 onPressed: () {
-                                  controller.simulation(tage, person);
+                                  controller.simulation(
+                                      colorIndex, tage, person);
                                 },
                                 child: const Text('Simulation Starten')))),
                     Expanded(
@@ -140,13 +151,15 @@ class SimulationScreen extends StatelessWidget {
                   ])),
               Expanded(
                 flex: 8,
-                child: Container(
-                    decoration: BoxDecoration(
-                  image: DecorationImage(
-                    image: person.value.image,
-                    fit: BoxFit.scaleDown,
-                  ),
-                )),
+                child: Obx(() => AnimatedContainer(
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                          image: person.value.image,
+                          fit: BoxFit.scaleDown,
+                        ),
+                      ),
+                      duration: const Duration(seconds: 1),
+                    )),
               )
             ],
           ),

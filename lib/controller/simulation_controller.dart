@@ -5,7 +5,20 @@ import 'package:get/get.dart';
 
 import '../models/person_model.dart';
 
-class SimulationController extends GetxController {
+class SimulationController extends GetxController
+    with GetSingleTickerProviderStateMixin {
+  late AnimationController animationcontroller;
+  @override
+  void onInit() {
+    super.onInit();
+    animationcontroller = AnimationController(
+      vsync: this,
+      duration: const Duration(
+        seconds: 2,
+      ),
+    );
+  }
+
   RxBool simulate = true.obs;
   RxInt imageIndex = 0.obs;
   List<AssetImage> animatedImage = [
@@ -19,6 +32,7 @@ class SimulationController extends GetxController {
       RxInt colorIndex, RxInt tage, Rx<Person> person) async {
     if (simulate.value == false) {
       simulate.toggle();
+      animationcontroller.repeat(reverse: true);
     }
     while (simulate.value) {
       double basalmetabolism = await calculateBasalMetabolism(
@@ -122,5 +136,6 @@ class SimulationController extends GetxController {
 
   void stop() {
     simulate.toggle();
+    animationcontroller.stop();
   }
 }

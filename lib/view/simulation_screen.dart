@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 
 class SimulationScreen extends StatelessWidget {
   SimulationScreen({Key? key, required this.person}) : super(key: key);
+
   final SimulationController controller = Get.put(SimulationController());
   final _adjustFormKey = GlobalKey<FormState>();
   final RxInt tage = 0.obs;
@@ -18,6 +19,10 @@ class SimulationScreen extends StatelessWidget {
     Colors.yellow,
     Colors.green
   ];
+  final RelativeRectTween relativeRectTween = RelativeRectTween(
+    begin: const RelativeRect.fromLTRB(500, 0, 0, 0),
+    end: const RelativeRect.fromLTRB(0, 0, 0, 0),
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -150,17 +155,27 @@ class SimulationScreen extends StatelessWidget {
                             )))
                   ])),
               Expanded(
-                flex: 8,
-                child: Obx(() => AnimatedContainer(
-                      decoration: BoxDecoration(
-                        image: DecorationImage(
-                          image: person.value.image,
-                          fit: BoxFit.scaleDown,
-                        ),
-                      ),
-                      duration: const Duration(seconds: 1),
-                    )),
-              )
+                  flex: 8,
+                  child: Container(
+                      height: 600,
+                      child: Stack(
+                        children: [
+                          PositionedTransition(
+                              rect: relativeRectTween
+                                  .animate(controller.animationcontroller),
+                              child: Obx(() => AnimatedContainer(
+                                    height: 600,
+                                    width: 600,
+                                    decoration: BoxDecoration(
+                                      image: DecorationImage(
+                                        image: person.value.image,
+                                        fit: BoxFit.scaleDown,
+                                      ),
+                                    ),
+                                    duration: const Duration(seconds: 1),
+                                  )))
+                        ],
+                      )))
             ],
           ),
         )

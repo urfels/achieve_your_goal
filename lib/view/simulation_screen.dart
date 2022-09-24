@@ -20,7 +20,7 @@ class SimulationScreen extends StatelessWidget {
     Colors.green
   ];
   final RelativeRectTween relativeRectTween = RelativeRectTween(
-    begin: const RelativeRect.fromLTRB(500, 0, 0, 0),
+    begin: const RelativeRect.fromLTRB(200, 0, 0, 0),
     end: const RelativeRect.fromLTRB(0, 0, 0, 0),
   );
 
@@ -40,7 +40,7 @@ class SimulationScreen extends StatelessWidget {
                   flex: 2,
                   child: Column(children: <Widget>[
                     Expanded(
-                        flex: 1,
+                        flex: 2,
                         child: Obx(() => AnimatedContainer(
                             width: double.infinity,
                             margin: const EdgeInsets.fromLTRB(30, 0, 30, 0),

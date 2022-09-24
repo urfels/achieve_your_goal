@@ -14,7 +14,7 @@ class SimulationController extends GetxController
     animationcontroller = AnimationController(
       vsync: this,
       duration: const Duration(
-        seconds: 2,
+        seconds: 1,
       ),
     );
   }
@@ -32,9 +32,9 @@ class SimulationController extends GetxController
       RxInt colorIndex, RxInt tage, Rx<Person> person) async {
     if (simulate.value == false) {
       simulate.toggle();
-      animationcontroller.repeat(reverse: true);
     }
     while (simulate.value) {
+      animationcontroller.repeat(reverse: true);
       double basalmetabolism = await calculateBasalMetabolism(
           person.value.weight, person.value.height, person.value.age);
       double performanceTurnover =

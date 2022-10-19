@@ -9,18 +9,21 @@ class SimulationScreen extends StatelessWidget {
 
   final SimulationController controller = Get.put(SimulationController());
   final _adjustFormKey = GlobalKey<FormState>();
+  final RxInt dayDuration = 60000.obs;
   final RxInt tage = 0.obs;
   final Rx<Person> person;
-  final RxInt colorIndex = 0.obs;
+  final RxInt colorIndex = 4.obs;
   final RxInt imageIndex = 0.obs;
+  final RxInt movementMinutes = 0.obs;
   final List<Color> containerColor = [
     Colors.red,
     Colors.orange,
     Colors.yellow,
-    Colors.green
+    Colors.green,
+    Colors.white
   ];
   final RelativeRectTween relativeRectTween = RelativeRectTween(
-    begin: const RelativeRect.fromLTRB(200, 0, 0, 0),
+    begin: const RelativeRect.fromLTRB(500, 0, 0, 0),
     end: const RelativeRect.fromLTRB(0, 0, 0, 0),
   );
 
@@ -53,6 +56,8 @@ class SimulationScreen extends StatelessWidget {
                                     'Gewicht in Kg: ${person.value.weight}')),
                                 Obx(() => Text('BMI: ${person.value.bmi} ')),
                                 Obx(() => Text('Tage:  ${tage.value}')),
+                                Obx(() =>
+                                    Text('Tage:  ${movementMinutes.value}')),
                               ],
                             )))),
                     Expanded(
@@ -63,7 +68,11 @@ class SimulationScreen extends StatelessWidget {
                             child: ElevatedButton(
                                 onPressed: () {
                                   controller.simulation(
-                                      colorIndex, tage, person);
+                                      dayDuration,
+                                      movementMinutes,
+                                      colorIndex,
+                                      tage,
+                                      person);
                                 },
                                 child: const Text('Simulation Starten')))),
                     Expanded(
@@ -162,7 +171,10 @@ class SimulationScreen extends StatelessWidget {
                         children: [
                           PositionedTransition(
                               rect: relativeRectTween
-                                  .animate(controller.animationcontroller),
+                                  .animate(controller.animationcontroller)
+                                ..addListener(() {
+                                  controller.update();
+                                }),
                               child: Obx(() => AnimatedContainer(
                                     height: 600,
                                     width: 600,
@@ -172,7 +184,8 @@ class SimulationScreen extends StatelessWidget {
                                         fit: BoxFit.scaleDown,
                                       ),
                                     ),
-                                    duration: const Duration(seconds: 1),
+                                    duration: Duration(
+                                        milliseconds: movementMinutes.value),
                                   )))
                         ],
                       )))

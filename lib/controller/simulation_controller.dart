@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:ffi';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -7,14 +8,15 @@ import '../models/person_model.dart';
 
 class SimulationController extends GetxController
     with GetSingleTickerProviderStateMixin {
+  final RxInt movement = 1.obs;
   late AnimationController animationcontroller;
   @override
   void onInit() {
     super.onInit();
     animationcontroller = AnimationController(
       vsync: this,
-      duration: const Duration(
-        seconds: 1,
+      duration: Duration(
+        milliseconds: movement.value,
       ),
     );
   }
@@ -28,13 +30,19 @@ class SimulationController extends GetxController
     const AssetImage('assets/images/slim_middel.png'),
     const AssetImage('assets/images/slim.png')
   ];
-  Future<void> simulation(
+  Future<void> simulation(RxInt dayDuration, RxInt movementMinutes,
       RxInt colorIndex, RxInt tage, Rx<Person> person) async {
     if (simulate.value == false) {
       simulate.toggle();
     }
     while (simulate.value) {
-      animationcontroller.repeat(reverse: true);
+      int newMovementMinutes = calculateMovement(person, dayDuration);
+      movementMinutes.value = newMovementMinutes;
+      movement.value = movementMinutes.value;
+      update();
+      animationcontroller.reset();
+      animationcontroller.forward();
+
       double basalmetabolism = await calculateBasalMetabolism(
           person.value.weight, person.value.height, person.value.age);
       double performanceTurnover =
@@ -63,8 +71,22 @@ class SimulationController extends GetxController
       person.value.image = animatedImage[imageIndex.value];
       update();
       tage.value++;
-      await Future.delayed(const Duration(seconds: 2));
+
+      await Future.delayed(Duration(milliseconds: dayDuration.value));
     }
+  }
+
+  calculateMovement(Rx<Person> person, RxInt dayDuration) {
+    double movePercentage = (person.value.trainingEasy +
+            person.value.trainigMiddel +
+            person.value.trainingHard) /
+        1440 *
+        60000 /
+        100 /
+        dayDuration.value;
+    double movement = movePercentage * dayDuration.value;
+    int newMovementMinutes = movement.toInt();
+    return newMovementMinutes;
   }
 
   calculatecolorIndex(double bmi) {

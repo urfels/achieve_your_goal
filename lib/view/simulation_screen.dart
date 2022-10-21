@@ -1,5 +1,6 @@
 import 'package:achieve_your_goal/controller/simulation_controller.dart';
 import 'package:achieve_your_goal/models/person_model.dart';
+import 'package:achieve_your_goal/widgets/form_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -7,9 +8,15 @@ import 'package:get/get.dart';
 class SimulationScreen extends StatelessWidget {
   SimulationScreen({Key? key, required this.person}) : super(key: key);
 
+  static double palController = 0;
+  final _kcalController = TextEditingController();
+  final _trainingEasyController = TextEditingController();
+  final _trainingMiddelController = TextEditingController();
+  final _trainingHardController = TextEditingController();
   final SimulationController controller = Get.put(SimulationController());
   final _adjustFormKey = GlobalKey<FormState>();
-  final RxInt dayDuration = 60000.obs;
+  final List<double> palNumbers = [1.2, 1.5, 1.7, 1.9, 2.4];
+  final RxInt dayDuration = 6000.obs;
   final RxInt tage = 0.obs;
   final Rx<Person> person;
   final RxInt colorIndex = 4.obs;
@@ -22,6 +29,7 @@ class SimulationScreen extends StatelessWidget {
     Colors.green,
     Colors.white
   ];
+
   final RelativeRectTween relativeRectTween = RelativeRectTween(
     begin: const RelativeRect.fromLTRB(500, 0, 0, 0),
     end: const RelativeRect.fromLTRB(0, 0, 0, 0),
@@ -29,6 +37,10 @@ class SimulationScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final List buttonbgcolor = [
+      MaterialStateProperty.all<Color>(Theme.of(context).colorScheme.primary),
+      MaterialStateProperty.all<Color>(Colors.grey),
+    ];
     return Scaffold(
         body: Column(
       children: <Widget>[
@@ -42,129 +54,53 @@ class SimulationScreen extends StatelessWidget {
               Expanded(
                   flex: 2,
                   child: Column(children: <Widget>[
-                    Expanded(
-                        flex: 2,
-                        child: Obx(() => AnimatedContainer(
-                            width: double.infinity,
-                            margin: const EdgeInsets.fromLTRB(30, 0, 30, 0),
-                            color: containerColor[colorIndex.value],
-                            duration: const Duration(seconds: 1),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: <Widget>[
-                                Obx(() => Text(
-                                    'Gewicht in Kg: ${person.value.weight}')),
-                                Obx(() => Text('BMI: ${person.value.bmi} ')),
-                                Obx(() => Text('Tage:  ${tage.value}')),
-                                Obx(() =>
-                                    Text('Tage:  ${movementMinutes.value}')),
-                              ],
-                            )))),
-                    Expanded(
-                        flex: 1,
-                        child: Container(
-                            margin: const EdgeInsets.fromLTRB(30, 20, 30, 0),
-                            width: double.infinity,
-                            child: ElevatedButton(
-                                onPressed: () {
-                                  controller.simulation(
-                                      dayDuration,
-                                      movementMinutes,
-                                      colorIndex,
-                                      tage,
-                                      person);
-                                },
-                                child: const Text('Simulation Starten')))),
-                    Expanded(
-                        flex: 1,
-                        child: Container(
-                            margin: const EdgeInsets.fromLTRB(30, 20, 30, 0),
-                            width: double.infinity,
-                            child: ElevatedButton(
-                                onPressed: () {
-                                  controller.stop();
-                                },
-                                child: const Text('Simulation stoppen')))),
-                    Expanded(
-                        flex: 7,
-                        child: Form(
-                            key: _adjustFormKey,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: <Widget>[
-                                Container(
-                                    margin: const EdgeInsets.fromLTRB(
-                                        30, 20, 30, 0),
-                                    width: double.infinity,
-                                    child: TextFormField(
-                                        inputFormatters: <TextInputFormatter>[
-                                          FilteringTextInputFormatter.allow(
-                                              RegExp(r'[0-9]'))
-                                        ],
-                                        decoration: const InputDecoration(
-                                            labelText: 'Kcal zufuhr',
-                                            fillColor: Colors.white,
-                                            filled: true,
-                                            border: OutlineInputBorder()))),
-                                Container(
-                                    margin: const EdgeInsets.fromLTRB(
-                                        30, 20, 30, 0),
-                                    width: double.infinity,
-                                    child: TextFormField(
-                                      inputFormatters: <TextInputFormatter>[
-                                        FilteringTextInputFormatter.allow(
-                                            RegExp(r'[0-9]'))
-                                      ],
-                                      decoration: const InputDecoration(
-                                          labelText: 'Training leicht in min',
-                                          fillColor: Colors.white,
-                                          filled: true,
-                                          border: OutlineInputBorder()),
-                                    )),
-                                Container(
-                                    margin: const EdgeInsets.fromLTRB(
-                                        30, 20, 30, 0),
-                                    width: double.infinity,
-                                    child: TextFormField(
-                                      inputFormatters: <TextInputFormatter>[
-                                        FilteringTextInputFormatter.allow(
-                                            RegExp(r'[0-9]'))
-                                      ],
-                                      decoration: const InputDecoration(
-                                          labelText: 'Training moderat in min',
-                                          fillColor: Colors.white,
-                                          filled: true,
-                                          border: OutlineInputBorder()),
-                                    )),
-                                Container(
-                                    margin: const EdgeInsets.fromLTRB(
-                                        30, 20, 30, 0),
-                                    width: double.infinity,
-                                    child: TextFormField(
-                                      inputFormatters: <TextInputFormatter>[
-                                        FilteringTextInputFormatter.allow(
-                                            RegExp(r'[0-9]'))
-                                      ],
-                                      decoration: const InputDecoration(
-                                          labelText: 'Training intensiv in min',
-                                          fillColor: Colors.white,
-                                          filled: true,
-                                          border: OutlineInputBorder()),
-                                    )),
-                                Container(
-                                    margin: const EdgeInsets.fromLTRB(
-                                        30, 20, 30, 0),
-                                    width: double.infinity,
-                                    child: ElevatedButton(
-                                        onPressed: () {
-                                          Get.back();
-                                        },
-                                        child: const Text('Parameter updaten')))
-                              ],
-                            )))
+                    Obx(() => AnimatedContainer(
+                        width: double.infinity,
+                        margin: const EdgeInsets.fromLTRB(30, 0, 30, 0),
+                        color: containerColor[colorIndex.value],
+                        duration: const Duration(seconds: 1),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Obx(() =>
+                                Text('Gewicht in Kg: ${person.value.weight}')),
+                            Obx(() => Text('BMI: ${person.value.bmi} ')),
+                            Obx(() => Text('Tage:  ${tage.value}')),
+                            Obx(() => Text('Tage:  ${person.value.pal}')),
+                          ],
+                        ))),
+                    Container(
+                        margin: const EdgeInsets.fromLTRB(30, 20, 30, 0),
+                        width: double.infinity,
+                        child: Obx(() => ElevatedButton(
+                            style: ButtonStyle(
+                              backgroundColor:
+                                  buttonbgcolor[controller.bbgcIndex.value],
+                            ),
+                            onPressed: () {
+                              if (controller.simulate.value != true) {
+                                controller.simulation(dayDuration,
+                                    movementMinutes, colorIndex, tage, person);
+                              }
+                            },
+                            child: const Text('Simulation Starten')))),
+                    Container(
+                        margin: const EdgeInsets.fromLTRB(30, 20, 30, 0),
+                        width: double.infinity,
+                        child: Obx(() => ElevatedButton(
+                            style: ButtonStyle(
+                              backgroundColor:
+                                  buttonbgcolor[controller.bbgcStopIndex.value],
+                            ),
+                            onPressed: () {
+                              if (controller.simulate.value == true) {
+                                controller.stop();
+                              }
+                            },
+                            child: const Text('Simulation stoppen')))),
                   ])),
               Expanded(
-                  flex: 8,
+                  flex: 7,
                   child: Container(
                       height: 600,
                       child: Stack(
@@ -188,7 +124,47 @@ class SimulationScreen extends StatelessWidget {
                                         milliseconds: movementMinutes.value),
                                   )))
                         ],
-                      )))
+                      ))),
+              Expanded(
+                  flex: 2,
+                  child: Form(
+                      key: _adjustFormKey,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          KcalFormField(kcalController: _kcalController),
+                          TrainingEasyFormField(
+                              trainingEasyController: _trainingEasyController),
+                          TrainingMiddelFormfield(
+                              trainingMiddelController:
+                                  _trainingMiddelController),
+                          TrainingHardFormField(
+                              trainingHardController: _trainingHardController),
+                          PalFormField(palController: palController),
+                          Container(
+                            margin: const EdgeInsets.fromLTRB(30, 20, 30, 0),
+                            width: double.infinity,
+                            child: Obx(() => ElevatedButton(
+                                style: ButtonStyle(
+                                  backgroundColor:
+                                      buttonbgcolor[controller.bbgcIndex.value],
+                                ),
+                                onPressed: () {
+                                  if (controller.simulate.value != true &&
+                                      _adjustFormKey.currentState!.validate()) {
+                                    controller.updateVariables(
+                                        person,
+                                        _kcalController.text,
+                                        _trainingEasyController.text,
+                                        _trainingMiddelController.text,
+                                        _trainingHardController.text,
+                                        palController);
+                                  }
+                                },
+                                child: const Text('Parameter updaten'))),
+                          )
+                        ],
+                      ))),
             ],
           ),
         )

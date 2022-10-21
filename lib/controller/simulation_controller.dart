@@ -9,6 +9,8 @@ import '../models/person_model.dart';
 class SimulationController extends GetxController
     with GetSingleTickerProviderStateMixin {
   final RxInt movement = 1.obs;
+  final RxInt bbgcIndex = 0.obs;
+  final RxInt bbgcStopIndex = 1.obs;
   late AnimationController animationcontroller;
   @override
   void onInit() {
@@ -21,7 +23,7 @@ class SimulationController extends GetxController
     );
   }
 
-  RxBool simulate = true.obs;
+  RxBool simulate = false.obs;
   RxInt imageIndex = 0.obs;
   List<AssetImage> animatedImage = [
     const AssetImage('assets/images/fat.png'),
@@ -36,6 +38,9 @@ class SimulationController extends GetxController
       simulate.toggle();
     }
     while (simulate.value) {
+      bbgcIndex.value = 1;
+      bbgcStopIndex.value = 0;
+      update();
       int newMovementMinutes = calculateMovement(person, dayDuration);
       movementMinutes.value = newMovementMinutes;
       movement.value = movementMinutes.value;
@@ -159,5 +164,17 @@ class SimulationController extends GetxController
   void stop() {
     simulate.toggle();
     animationcontroller.stop();
+    bbgcIndex.value = 0;
+    bbgcStopIndex.value = 1;
+    update();
+  }
+
+  void updateVariables(person, kcal, trainEasy, trainMiddel, trainHard, pal) {
+    person.value.kcalZufuhr = int.parse(kcal);
+    person.value.trainingEasy = int.parse(trainEasy);
+    person.value.trainigMiddel = int.parse(trainMiddel);
+    person.value.trainingHard = int.parse(trainHard);
+    person.value.pal = pal;
+    update();
   }
 }

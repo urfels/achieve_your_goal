@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import '../models/person_model.dart';
+import '../widgets/form_widgets.dart';
 
 class HomeScreen extends StatelessWidget {
   HomeScreen({Key? key}) : super(key: key);
@@ -16,236 +17,50 @@ class HomeScreen extends StatelessWidget {
   final _trainingEasyController = TextEditingController();
   final _trainingMiddelController = TextEditingController();
   final _trainingHardController = TextEditingController();
+  static double palController = 0;
   final HomeController controller = Get.put(HomeController());
 
   @override
   Widget build(BuildContext context) {
-    late double palController;
     return Scaffold(
-        body: Center(
-            child: Column(children: <Widget>[
-      const Spacer(
-        flex: 1,
-      ),
-      const Expanded(
-        flex: 2,
-        child: Text('Achieve your Goals', style: TextStyle(fontSize: 40)),
-      ),
-      const Spacer(
-        flex: 1,
-      ),
-      Expanded(
-        flex: 12,
-        child: Row(children: <Widget>[
-          const Spacer(),
-          Expanded(
-              flex: 6,
-              child: Form(
-                key: _formKey,
-                child: Row(children: <Widget>[
-                  Column(children: <Widget>[
-                    Container(
-                        padding: const EdgeInsets.only(top: 50),
-                        width: 320,
-                        child: TextFormField(
-                          controller: _ageController,
-                          validator: (String? value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Bitte tragen Sie ein Alter ein';
-                            }
-                            return null;
-                          },
-                          inputFormatters: <TextInputFormatter>[
-                            FilteringTextInputFormatter.allow(RegExp(r'[0-9]'))
-                          ],
-                          decoration: const InputDecoration(
-                              labelText: 'Alter in Jahren',
-                              fillColor: Colors.white,
-                              filled: true,
-                              border: OutlineInputBorder()),
-                        )),
-                    Container(
-                        padding: const EdgeInsets.only(top: 20),
-                        width: 320,
-                        child: TextFormField(
-                          controller: _heightController,
-                          validator: (String? value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Bitte tragen Sie ihre Größe';
-                            }
-                            return null;
-                          },
-                          inputFormatters: <TextInputFormatter>[
-                            FilteringTextInputFormatter.allow(RegExp(r'[0-9]'))
-                          ],
-                          decoration: const InputDecoration(
-                              labelText: 'Größe in cm',
-                              fillColor: Colors.white,
-                              filled: true,
-                              border: OutlineInputBorder()),
-                        )),
-                    Container(
-                        padding: const EdgeInsets.only(top: 20),
-                        width: 320,
-                        child: TextFormField(
-                          controller: _weightController,
-                          validator: (String? value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Bitte tragen Sie ihr Gewicht ein';
-                            }
-                            return null;
-                          },
-                          inputFormatters: <TextInputFormatter>[
-                            FilteringTextInputFormatter.allow(RegExp(r'[0-9]'))
-                          ],
-                          decoration: const InputDecoration(
-                              labelText: 'Gewicht in Kg',
-                              fillColor: Colors.white,
-                              filled: true,
-                              border: OutlineInputBorder()),
-                        )),
-                    Container(
-                        padding: const EdgeInsets.only(top: 20),
-                        width: 320,
-                        child: DropdownButtonFormField<double>(
-                          validator: (double? value) {
-                            if (value == null || value.isNaN) {
-                              return 'Bitte tragen Sie einen Wert ein.';
-                            }
-                            return null;
-                          },
-                          decoration: const InputDecoration(
-                              labelText: 'PAL Wert',
-                              fillColor: Colors.white,
-                              filled: true,
-                              border: OutlineInputBorder()),
-                          onChanged: ((value) {
-                            palController = value!;
-                          }),
-                          items: palNumbers.map((double val) {
-                            return DropdownMenuItem(
-                              value: val,
-                              child: Text(
-                                val.toString(),
-                              ),
-                            );
-                          }).toList(),
-                        ))
-                  ]),
-                  const Spacer(flex: 1),
-                  Column(children: <Widget>[
-                    Container(
-                        padding: const EdgeInsets.only(top: 50),
-                        width: 320,
-                        child: TextFormField(
-                          controller: _kcalController,
-                          validator: (String? value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Bitte tragen Sie einen Wert ein.';
-                            }
-                            return null;
-                          },
-                          inputFormatters: <TextInputFormatter>[
-                            FilteringTextInputFormatter.allow(RegExp(r'[0-9]'))
-                          ],
-                          decoration: const InputDecoration(
-                              labelText: 'Kcal zufuhr',
-                              fillColor: Colors.white,
-                              filled: true,
-                              border: OutlineInputBorder()),
-                        )),
+      body: Center(
+          child: Column(children: <Widget>[
+        const Spacer(
+          flex: 1,
+        ),
+        const Expanded(
+          flex: 2,
+          child: Text('Achieve your Goals', style: TextStyle(fontSize: 40)),
+        ),
+        const Spacer(
+          flex: 1,
+        ),
+        Expanded(
+          flex: 12,
+          child: Row(children: <Widget>[
+            const Spacer(),
+            Expanded(
+                flex: 6,
+                child: Form(
+                  key: _formKey,
+                  child: Row(children: <Widget>[
+                    Column(children: <Widget>[
+                      AgeFormField(ageController: _ageController),
+                      SizeFormField(heightController: _heightController),
+                      WeightFormField(weightController: _weightController),
+                      PalFormField(palController: palController),
+                    ]),
+                    const Spacer(flex: 1),
                     Column(
                       children: <Widget>[
-                        Container(
-                            padding: const EdgeInsets.only(top: 20),
-                            width: 320,
-                            child: Tooltip(
-                                textStyle: const TextStyle(
-                                  fontSize: 14,
-                                ),
-                                decoration: BoxDecoration(
-                                  color: Colors.blue.withOpacity(0.9),
-                                ),
-                                message:
-                                    'Badminton, Softball,Tanzen(normal), Crosstrainer(langsam), Krafttrainig(mäßig), Wandern, Basketball, Radfahren(17km/h)',
-                                child: TextFormField(
-                                  controller: _trainingEasyController,
-                                  validator: (String? value) {
-                                    if (value == null || value.isEmpty) {
-                                      return 'Bitte tragen Sie einen Wert ein';
-                                    }
-                                    return null;
-                                  },
-                                  inputFormatters: <TextInputFormatter>[
-                                    FilteringTextInputFormatter.allow(
-                                        RegExp(r'[0-9]'))
-                                  ],
-                                  decoration: const InputDecoration(
-                                      labelText: 'Training leicht in min',
-                                      fillColor: Colors.white,
-                                      filled: true,
-                                      border: OutlineInputBorder()),
-                                ))),
-                        Container(
-                            padding: const EdgeInsets.only(top: 20),
-                            width: 320,
-                            child: Tooltip(
-                                textStyle: const TextStyle(
-                                  fontSize: 14,
-                                ),
-                                decoration: BoxDecoration(
-                                  color: Colors.blue.withOpacity(0.9),
-                                ),
-                                message:
-                                    'Calisthenics, Schwimmen(mäßig), Seilspringen(langsam), Fußball, Joggen(8km/h), Radfahren(21km/h), Handball, Tennis',
-                                child: TextFormField(
-                                  controller: _trainingMiddelController,
-                                  validator: (String? value) {
-                                    if (value == null || value.isEmpty) {
-                                      return 'Bitte tragen Sie einen Wert ein.';
-                                    }
-                                    return null;
-                                  },
-                                  inputFormatters: <TextInputFormatter>[
-                                    FilteringTextInputFormatter.allow(
-                                        RegExp(r'[0-9]'))
-                                  ],
-                                  decoration: const InputDecoration(
-                                      labelText: 'Training moderat in min',
-                                      fillColor: Colors.white,
-                                      filled: true,
-                                      border: OutlineInputBorder()),
-                                ))),
-                        Container(
-                            padding: const EdgeInsets.only(top: 20),
-                            width: 320,
-                            child: Tooltip(
-                                textStyle: const TextStyle(
-                                  fontSize: 14,
-                                ),
-                                decoration: BoxDecoration(
-                                  color: Colors.blue.withOpacity(0.9),
-                                ),
-                                message:
-                                    'Seilspringen(moderat), Schwimmen(schnell), Laufen(11km/h), Boxen, Radfahren(26km/h)',
-                                child: TextFormField(
-                                  controller: _trainingHardController,
-                                  validator: (String? value) {
-                                    if (value == null || value.isEmpty) {
-                                      return 'Bitte tragen Sie einen Wert ein';
-                                    }
-                                    return null;
-                                  },
-                                  inputFormatters: <TextInputFormatter>[
-                                    FilteringTextInputFormatter.allow(
-                                        RegExp(r'[0-9]'))
-                                  ],
-                                  decoration: const InputDecoration(
-                                      labelText: 'Training intensiv in min',
-                                      fillColor: Colors.white,
-                                      filled: true,
-                                      border: OutlineInputBorder()),
-                                ))),
+                        KcalFormField(kcalController: _kcalController),
+                        TrainingEasyFormField(
+                            trainingEasyController: _trainingEasyController),
+                        TrainingMiddelFormfield(
+                            trainingMiddelController:
+                                _trainingMiddelController),
+                        TrainingHardFormField(
+                            trainingHardController: _trainingHardController),
                         Container(
                             margin: const EdgeInsets.only(top: 30),
                             child: Center(
@@ -283,13 +98,13 @@ class HomeScreen extends StatelessWidget {
                       ],
                     )
                   ]),
-                  const Spacer(
-                    flex: 1,
-                  ),
-                ]),
-              ))
-        ]),
-      )
-    ])));
+                )),
+            const Spacer(
+              flex: 1,
+            ),
+          ]),
+        )
+      ])),
+    );
   }
 }

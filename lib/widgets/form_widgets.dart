@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:achieve_your_goal/view/home_screen.dart';
 import 'package:achieve_your_goal/view/simulation_screen.dart';
 import 'package:flutter/material.dart';
@@ -25,7 +27,7 @@ class KcalFormField extends StatelessWidget {
             FilteringTextInputFormatter.allow(RegExp(r'[0-9]'))
           ],
           decoration: const InputDecoration(
-              labelText: 'Kcal zufuhr',
+              labelText: 'Kcal Aufnahme /Tag',
               fillColor: Colors.white,
               filled: true,
               border: OutlineInputBorder()),
@@ -132,31 +134,40 @@ class PalFormField extends StatelessWidget {
     return Container(
         padding: const EdgeInsets.only(top: 20),
         width: 320,
-        child: DropdownButtonFormField<double>(
-          validator: (double? value) {
-            if (value == null || value.isNaN) {
-              return 'Bitte tragen Sie einen Wert ein.';
-            }
-            return null;
-          },
-          decoration: const InputDecoration(
-              labelText: 'PAL Wert',
-              fillColor: Colors.white,
-              filled: true,
-              border: OutlineInputBorder()),
-          onChanged: ((value) {
-            HomeScreen.palController = value!;
-            SimulationScreen.palController = value;
-          }),
-          items: palNumbers.map((double val) {
-            return DropdownMenuItem(
-              value: val,
-              child: Text(
-                val.toString(),
-              ),
-            );
-          }).toList(),
-        ));
+        child: Tooltip(
+            textStyle: const TextStyle(
+              fontSize: 14,
+            ),
+            decoration: BoxDecoration(
+              color: Colors.blue.withOpacity(0.9),
+            ),
+            message:
+                '1.2 = bettlägerig, 1.5 = sitzend(Büroangestellte), 1.7 = teils siztend teils stehend (Fließbandarbeiter), 1.9 = überwigend stehend, gehend (Handwerker), 2.4 = körperlichanstrengend (Bauarbeiter, Leistungssportler)',
+            child: DropdownButtonFormField<double>(
+              validator: (double? value) {
+                if (value == null || value.isNaN) {
+                  return 'Bitte tragen Sie einen Wert ein.';
+                }
+                return null;
+              },
+              decoration: const InputDecoration(
+                  labelText: 'PAL Wert',
+                  fillColor: Colors.white,
+                  filled: true,
+                  border: OutlineInputBorder()),
+              onChanged: ((value) {
+                HomeScreen.palController = value!;
+                SimulationScreen.palController = value;
+              }),
+              items: palNumbers.map((double val) {
+                return DropdownMenuItem(
+                  value: val,
+                  child: Text(
+                    val.toString(),
+                  ),
+                );
+              }).toList(),
+            )));
   }
 }
 
@@ -191,7 +202,7 @@ class TrainingEasyFormField extends StatelessWidget {
                 FilteringTextInputFormatter.allow(RegExp(r'[0-9]'))
               ],
               decoration: const InputDecoration(
-                  labelText: 'Training leicht in min',
+                  labelText: 'Training leicht in min /Tag',
                   fillColor: Colors.white,
                   filled: true,
                   border: OutlineInputBorder()),
@@ -231,7 +242,7 @@ class TrainingMiddelFormfield extends StatelessWidget {
                 FilteringTextInputFormatter.allow(RegExp(r'[0-9]'))
               ],
               decoration: const InputDecoration(
-                  labelText: 'Training moderat in min',
+                  labelText: 'Training moderat in min/Tag',
                   fillColor: Colors.white,
                   filled: true,
                   border: OutlineInputBorder()),
@@ -270,7 +281,7 @@ class TrainingHardFormField extends StatelessWidget {
                 FilteringTextInputFormatter.allow(RegExp(r'[0-9]'))
               ],
               decoration: const InputDecoration(
-                  labelText: 'Training intensiv in min',
+                  labelText: 'Training intensiv in min/Tag',
                   fillColor: Colors.white,
                   filled: true,
                   border: OutlineInputBorder()),

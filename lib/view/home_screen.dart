@@ -18,6 +18,7 @@ class HomeScreen extends StatelessWidget {
   final _trainingMiddelController = TextEditingController();
   final _trainingHardController = TextEditingController();
   static double palController = 0;
+  static int daySecondsController = 0;
   final HomeController controller = Get.put(HomeController());
 
   @override
@@ -61,6 +62,8 @@ class HomeScreen extends StatelessWidget {
                                 _trainingMiddelController),
                         TrainingHardFormField(
                             trainingHardController: _trainingHardController),
+                        DaySecondsFormField(
+                            daySecondsController: daySecondsController),
                         Container(
                             margin: const EdgeInsets.only(top: 30),
                             child: Center(
@@ -74,24 +77,28 @@ class HomeScreen extends StatelessWidget {
                                         AssetImage image =
                                             controller.chooseImage(bmi);
                                         Get.to(SimulationScreen(
+                                            dayDuration:
+                                                daySecondsController.obs,
                                             person: Person(
-                                          age: int.parse(_ageController.text),
-                                          height:
-                                              int.parse(_heightController.text),
-                                          weight: double.parse(
-                                              _weightController.text),
-                                          bmi: bmi,
-                                          image: image,
-                                          pal: palController,
-                                          kcalZufuhr:
-                                              int.parse(_kcalController.text),
-                                          trainingEasy: int.parse(
-                                              _trainingEasyController.text),
-                                          trainigMiddel: int.parse(
-                                              _trainingMiddelController.text),
-                                          trainingHard: int.parse(
-                                              _trainingHardController.text),
-                                        ).obs));
+                                              age: int.parse(
+                                                  _ageController.text),
+                                              height: int.parse(
+                                                  _heightController.text),
+                                              weight: double.parse(
+                                                  _weightController.text),
+                                              bmi: bmi,
+                                              image: image,
+                                              pal: palController,
+                                              kcalZufuhr: int.parse(
+                                                  _kcalController.text),
+                                              trainingEasy: int.parse(
+                                                  _trainingEasyController.text),
+                                              trainigMiddel: int.parse(
+                                                  _trainingMiddelController
+                                                      .text),
+                                              trainingHard: int.parse(
+                                                  _trainingHardController.text),
+                                            ).obs));
                                       }
                                     },
                                     child: const Text('Zur Simulation'))))

@@ -2,11 +2,11 @@ import 'package:achieve_your_goal/controller/simulation_controller.dart';
 import 'package:achieve_your_goal/models/person_model.dart';
 import 'package:achieve_your_goal/widgets/form_widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
 class SimulationScreen extends StatelessWidget {
-  SimulationScreen({Key? key, required this.person}) : super(key: key);
+  SimulationScreen({Key? key, required this.person, required this.dayDuration})
+      : super(key: key);
 
   static double palController = 0;
   final _kcalController = TextEditingController();
@@ -16,12 +16,12 @@ class SimulationScreen extends StatelessWidget {
   final SimulationController controller = Get.put(SimulationController());
   final _adjustFormKey = GlobalKey<FormState>();
   final List<double> palNumbers = [1.2, 1.5, 1.7, 1.9, 2.4];
-  final RxInt dayDuration = 6000.obs;
+  final RxInt dayDuration;
   final RxInt tage = 0.obs;
   final Rx<Person> person;
   final RxInt colorIndex = 4.obs;
   final RxInt imageIndex = 0.obs;
-  final RxInt movementMinutes = 0.obs;
+  late RxInt movementMinutes = (dayDuration.value / 2).round().obs;
   final List<Color> containerColor = [
     Colors.red,
     Colors.orange,
@@ -66,7 +66,7 @@ class SimulationScreen extends StatelessWidget {
                                 Text('Gewicht in Kg: ${person.value.weight}')),
                             Obx(() => Text('BMI: ${person.value.bmi} ')),
                             Obx(() => Text('Tage:  ${tage.value}')),
-                            Obx(() => Text('Tage:  ${person.value.pal}')),
+                            Obx(() => Text('Tage:  ${controller.movement}')),
                           ],
                         ))),
                     Container(

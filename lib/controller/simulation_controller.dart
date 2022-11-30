@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:ffi';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -7,7 +6,7 @@ import 'package:get/get.dart';
 import '../models/person_model.dart';
 
 class SimulationController extends GetxController
-    with GetSingleTickerProviderStateMixin {
+    with GetTickerProviderStateMixin {
   final RxInt movement = 1.obs;
   final RxInt bbgcIndex = 0.obs;
   final RxInt bbgcStopIndex = 1.obs;
@@ -40,10 +39,11 @@ class SimulationController extends GetxController
     while (simulate.value) {
       bbgcIndex.value = 1;
       bbgcStopIndex.value = 0;
+      movement.value = movementMinutes.value.round();
       update();
-      int newMovementMinutes = calculateMovement(person, dayDuration);
-      movementMinutes.value = newMovementMinutes;
-      movement.value = movementMinutes.value;
+      animationcontroller.duration = Duration(
+        milliseconds: movement.value,
+      );
       update();
       animationcontroller.reset();
       animationcontroller.forward();
@@ -81,19 +81,18 @@ class SimulationController extends GetxController
     }
   }
 
+/*
   calculateMovement(Rx<Person> person, RxInt dayDuration) {
-    double movePercentage = (person.value.trainingEasy +
+    double movePercentage =((person.value.trainingEasy +
             person.value.trainigMiddel +
-            person.value.trainingHard) /
-        1440 *
-        60000 /
-        100 /
-        dayDuration.value;
+            person.value.trainingHard)  *
+        60000) /
+        dayDuration.value ;
     double movement = movePercentage * dayDuration.value;
     int newMovementMinutes = movement.toInt();
     return newMovementMinutes;
   }
-
+*/
   calculatecolorIndex(double bmi) {
     int index;
     if (bmi >= 35) {

@@ -288,3 +288,42 @@ class TrainingHardFormField extends StatelessWidget {
             )));
   }
 }
+
+class DaySecondsFormField extends StatelessWidget {
+  final int daySecondsController;
+  DaySecondsFormField({Key? key, required this.daySecondsController})
+      : super(key: key);
+  final List<int> daySeconds = [6000, 3000, 1500, 9000];
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+        padding: const EdgeInsets.only(top: 20),
+        width: 320,
+        child: DropdownButtonFormField<int>(
+          validator: (int? value) {
+            if (value == null || value.isNaN) {
+              return 'Bitte tragen Sie einen Wert ein.';
+            }
+            return null;
+          },
+          decoration: const InputDecoration(
+              labelText: 'Tag Dauer in Millisekunden',
+              fillColor: Colors.white,
+              filled: true,
+              border: OutlineInputBorder()),
+          onChanged: ((value) {
+            HomeScreen.daySecondsController = value!;
+            // SimulationScreen.daySecondsController = value;
+          }),
+          items: daySeconds.map((int val) {
+            return DropdownMenuItem(
+              value: val,
+              child: Text(
+                val.toString(),
+              ),
+            );
+          }).toList(),
+        ));
+  }
+}

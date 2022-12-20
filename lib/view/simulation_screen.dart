@@ -1,8 +1,10 @@
+import 'package:achieve_your_goal/controller/assets_controller.dart';
 import 'package:achieve_your_goal/controller/simulation_controller.dart';
 import 'package:achieve_your_goal/models/person_model.dart';
 import 'package:achieve_your_goal/widgets/form_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:spritewidget/spritewidget.dart';
 
 class SimulationScreen extends StatelessWidget {
   SimulationScreen({Key? key, required this.person, required this.dayDuration})
@@ -22,7 +24,7 @@ class SimulationScreen extends StatelessWidget {
   final RxInt colorIndex = 4.obs;
   final RxInt imageIndex = 0.obs;
   late RxInt movementMinutes = (dayDuration.value / 2).round().obs;
-  final List<Color> containerColor = [
+  final List<dynamic> containerColor = [
     Colors.red,
     Colors.orange,
     Colors.yellow,
@@ -37,9 +39,11 @@ class SimulationScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final AssetsController assetsController =
+        Get.put(AssetsController(context: context));
     final List buttonbgcolor = [
-      MaterialStateProperty.all<Color>(Theme.of(context).colorScheme.primary),
-      MaterialStateProperty.all<Color>(Colors.grey),
+      MaterialStateProperty.all<MaterialColor>(Colors.blue),
+      MaterialStateProperty.all<MaterialColor>(Colors.grey),
     ];
     return Scaffold(
         body: Column(
@@ -99,32 +103,15 @@ class SimulationScreen extends StatelessWidget {
                             },
                             child: const Text('Simulation stoppen')))),
                   ])),
-              Expanded(
+              Obx(() => Expanded(
                   flex: 7,
-                  child: Container(
-                      height: 600,
-                      child: Stack(
-                        children: [
-                          PositionedTransition(
-                              rect: relativeRectTween
-                                  .animate(controller.animationcontroller)
-                                ..addListener(() {
-                                  controller.update();
-                                }),
-                              child: Obx(() => AnimatedContainer(
-                                    height: 600,
-                                    width: 600,
-                                    decoration: BoxDecoration(
-                                      image: DecorationImage(
-                                        image: person.value.image,
-                                        fit: BoxFit.scaleDown,
-                                      ),
-                                    ),
-                                    duration: Duration(
-                                        milliseconds: movementMinutes.value),
-                                  )))
-                        ],
-                      ))),
+                  child: (assetsController.assetsloaded.value == false)
+                      ? const SizedBox()
+                      : Container(
+                          height: 600,
+                          child: Stack(
+                            children: [SpriteWidget(assetsController.gymWorld)],
+                          )))),
               Expanded(
                   flex: 2,
                   child: Form(
@@ -172,3 +159,24 @@ class SimulationScreen extends StatelessWidget {
     ));
   }
 }
+
+/*
+                          PositionedTransition(
+                              rect: relativeRectTween
+                                  .animate(controller.animationcontroller)
+                                ..addListener(() {
+                                  controller.update();
+                                }),
+                              child: Obx(() => AnimatedContainer(
+                                    height: 600,
+                                    width: 600,
+                                    decoration: BoxDecoration(
+                                      image: DecorationImage(
+                                        image: person.value.image,
+                                        fit: BoxFit.scaleDown,
+                                      ),
+                                    ),
+                                    duration: Duration(
+                                        milliseconds: movementMinutes.value),
+                                  )))
+                      */

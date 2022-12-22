@@ -62,27 +62,42 @@ class SimulationScreen extends StatelessWidget {
                               flex: 1,
                             ),
                             Expanded(
-                                flex: 2,
-                                child: Obx(() => AnimatedContainer(
-                                    width: double.infinity,
-                                    margin:
-                                        const EdgeInsets.fromLTRB(30, 0, 30, 0),
-                                    color: containerColor[colorIndex.value],
-                                    duration: const Duration(seconds: 1),
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: <Widget>[
-                                        const Text('Ihre aktuellen Daten'),
-                                        Obx(() => Text(
-                                            'Gewicht in Kg: ${person.value.weight}')),
-                                        Obx(() =>
-                                            Text('BMI: ${person.value.bmi} ')),
-                                        Obx(() => Text('Tage:  ${tage.value}')),
-                                      ],
-                                    )))),
+                                flex: 9,
+                                child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: <Widget>[
+                                      const Expanded(
+                                          flex: 1,
+                                          child: Text('Ihre aktuellen Daten',
+                                              style: TextStyle(fontSize: 20))),
+                                      const Spacer(
+                                        flex: 1,
+                                      ),
+                                      Expanded(
+                                          flex: 5,
+                                          child: Obx(() => AnimatedContainer(
+                                              width: double.infinity,
+                                              margin: const EdgeInsets.fromLTRB(
+                                                  30, 0, 30, 0),
+                                              color: containerColor[
+                                                  colorIndex.value],
+                                              duration:
+                                                  const Duration(seconds: 1),
+                                              child: Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: <Widget>[
+                                                  Obx(() => Text(
+                                                      'Gewicht in Kg: ${person.value.weight}')),
+                                                  Obx(() => Text(
+                                                      'BMI: ${person.value.bmi} ')),
+                                                  Obx(() => Text(
+                                                      'Tage:  ${tage.value}')),
+                                                ],
+                                              ))))
+                                    ])),
                             Expanded(
-                                flex: 1,
+                                flex: 3,
                                 child: Container(
                                     margin: const EdgeInsets.fromLTRB(
                                         30, 20, 30, 0),
@@ -103,12 +118,19 @@ class SimulationScreen extends StatelessWidget {
                                             );
                                             ScaffoldMessenger.of(context)
                                                 .showSnackBar(snackBar);
+                                          } else {
+                                            const snackBar = SnackBar(
+                                              content: Text(
+                                                  'Die Simulation läuft bereits'),
+                                            );
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(snackBar);
                                           }
                                         },
                                         child: const Text(
                                             'Simulation Starten'))))),
                             Expanded(
-                                flex: 1,
+                                flex: 3,
                                 child: Container(
                                     margin: const EdgeInsets.fromLTRB(
                                         30, 20, 30, 0),
@@ -128,13 +150,20 @@ class SimulationScreen extends StatelessWidget {
                                             );
                                             ScaffoldMessenger.of(context)
                                                 .showSnackBar(snackBar);
+                                          } else {
+                                            const snackBar = SnackBar(
+                                              content: Text(
+                                                  'Die Simulation ist schon gestoppt'),
+                                            );
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(snackBar);
                                           }
                                         },
                                         child: const Text(
                                             'Simulation stoppen'))))),
                             const Spacer(flex: 1),
                             Expanded(
-                                flex: 13,
+                                flex: 36,
                                 child: Form(
                                     key: _adjustFormKey,
                                     child: Column(
@@ -143,7 +172,8 @@ class SimulationScreen extends StatelessWidget {
                                       mainAxisAlignment:
                                           MainAxisAlignment.center,
                                       children: <Widget>[
-                                        const Text('Updaten Sie ihre Daten',
+                                        const Text(
+                                            'Updaten Sie ihre die Parameter',
                                             style: TextStyle(fontSize: 20)),
                                         KcalFormField(
                                             kcalController: _kcalController),
@@ -188,6 +218,13 @@ class SimulationScreen extends StatelessWidget {
                                                   );
                                                   ScaffoldMessenger.of(context)
                                                       .showSnackBar(snackBar);
+                                                } else {
+                                                  const snackBar = SnackBar(
+                                                    content: Text(
+                                                        'Stoppen Sie die Simulation oder füllen Sie die Form vollständig aus'),
+                                                  );
+                                                  ScaffoldMessenger.of(context)
+                                                      .showSnackBar(snackBar);
                                                 }
                                               },
                                               child: const Text(
@@ -195,7 +232,7 @@ class SimulationScreen extends StatelessWidget {
                                         ),
                                       ],
                                     ))),
-                            const Spacer(flex: 1)
+                            const Spacer(flex: 2)
                           ]))),
               Obx(() => Expanded(
                   flex: 7,

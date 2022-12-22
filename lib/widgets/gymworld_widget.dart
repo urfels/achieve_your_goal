@@ -57,7 +57,7 @@ class FlyingHealthyFood extends sp.Node {
       radialAccelerationVar: 10.0 / distance,
       tangentialAccelerationVar: 10.0 / distance,
     );
-    food.position = const Offset(1024.0, -50.0);
+    food.position = const Offset(1024.0, 0.0);
     food.opacity = 0.0;
 
     _food.add(food);
@@ -124,7 +124,7 @@ class FlyingUnhealthyFood extends sp.Node {
       radialAccelerationVar: 10.0 / distance,
       tangentialAccelerationVar: 10.0 / distance,
     );
-    food.position = const Offset(1024.0, -50.0);
+    food.position = const Offset(1024.0, 0.0);
     food.opacity = 0;
 
     _food.add(food);

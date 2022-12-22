@@ -1,7 +1,6 @@
 import 'package:achieve_your_goal/controller/home_controller.dart';
 import 'package:achieve_your_goal/view/simulation_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import '../models/person_model.dart';
 import '../widgets/form_widgets.dart';

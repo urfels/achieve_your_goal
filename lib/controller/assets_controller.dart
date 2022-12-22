@@ -11,7 +11,7 @@ class AssetsController extends GetxController {
   late ImageMap images;
   RxBool assetsloaded = false.obs;
   late SpriteSheet sprites;
-  late GymWorld gymWorld;
+  late Rx<GymWorld> gymWorld;
 
   @override
   void onInit() {
@@ -22,7 +22,7 @@ class AssetsController extends GetxController {
     // Load all graphics, then set the state to assetsLoaded and create the
     // WeatherWorld sprite tree
     loadAssets(bundle, context).then((_) {
-      gymWorld = GymWorld();
+      gymWorld = GymWorld().obs;
       assetsloaded.value = true;
       update();
     });
@@ -34,10 +34,11 @@ class AssetsController extends GetxController {
     await images.load(<String>[
       'assets/images/food.png',
       'assets/images/fitnessstudio.png',
+      'assets/images/background.jpg',
     ]);
     String json = await DefaultAssetBundle.of(context)
         .loadString('assets/images/foodspritesheet.json');
-    SpriteSheet sprites = SpriteSheet(
+    sprites = SpriteSheet(
       image: images['assets/images/food.png']!,
       jsonDefinition: json,
     );

@@ -1,8 +1,8 @@
 import 'dart:async';
-
+import 'package:achieve_your_goal/controller/assets_controller.dart';
+import 'package:achieve_your_goal/widgets/gymworld_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
 import '../models/person_model.dart';
 
 class SimulationController extends GetxController
@@ -10,44 +10,19 @@ class SimulationController extends GetxController
   final RxInt movement = 1.obs;
   final RxInt bbgcIndex = 0.obs;
   final RxInt bbgcStopIndex = 1.obs;
-  late AnimationController animationcontroller;
-  @override
-  void onInit() {
-    super.onInit();
-    animationcontroller = AnimationController(
-      vsync: this,
-      duration: Duration(
-        milliseconds: movement.value,
-      ),
-    );
-  }
-
   RxBool simulate = false.obs;
-  RxInt imageIndex = 0.obs;
-  List<AssetImage> animatedImage = [
-    const AssetImage('assets/images/fat.png'),
-    const AssetImage('assets/images/medium_fat.png'),
-    const AssetImage('assets/images/medium.png'),
-    const AssetImage('assets/images/slim_middel.png'),
-    const AssetImage('assets/images/slim.png')
-  ];
+
   Future<void> simulation(RxInt dayDuration, RxInt movementMinutes,
       RxInt colorIndex, RxInt tage, Rx<Person> person) async {
     if (simulate.value == false) {
       simulate.toggle();
     }
     while (simulate.value) {
+      update();
       bbgcIndex.value = 1;
       bbgcStopIndex.value = 0;
       movement.value = movementMinutes.value.round();
       update();
-      animationcontroller.duration = Duration(
-        milliseconds: movement.value,
-      );
-      update();
-      animationcontroller.reset();
-      animationcontroller.forward();
-
       double basalmetabolism = await calculateBasalMetabolism(
           person.value.weight, person.value.height, person.value.age);
       double performanceTurnover =
@@ -61,6 +36,18 @@ class SimulationController extends GetxController
       double newWeight =
           (person.value.weight - performanceTurnover + addedWeight - usedKcal)
               .toPrecision(2);
+      if (newWeight < person.value.weight) {
+        final AssetsController assetsController = Get.find<AssetsController>();
+
+        assetsController.gymWorld.value.helthyfood.active = true;
+        assetsController.gymWorld.value.unhelthyfood.active = false;
+        update();
+      } else {
+        final AssetsController assetsController = Get.find<AssetsController>();
+        assetsController.gymWorld.value.helthyfood.active = false;
+        assetsController.gymWorld.value.unhelthyfood.active = true;
+        update();
+      }
       person.update((val) {
         val!.weight = newWeight;
       });
@@ -71,9 +58,6 @@ class SimulationController extends GetxController
       });
       int newcolorIndex = await calculatecolorIndex(newBmi);
       colorIndex.value = newcolorIndex;
-      int newImageIndex = await calculateimageIndex(newBmi);
-      imageIndex.value = newImageIndex;
-      person.value.image = animatedImage[imageIndex.value];
       update();
       tage.value++;
 
@@ -81,18 +65,6 @@ class SimulationController extends GetxController
     }
   }
 
-/*
-  calculateMovement(Rx<Person> person, RxInt dayDuration) {
-    double movePercentage =((person.value.trainingEasy +
-            person.value.trainigMiddel +
-            person.value.trainingHard)  *
-        60000) /
-        dayDuration.value ;
-    double movement = movePercentage * dayDuration.value;
-    int newMovementMinutes = movement.toInt();
-    return newMovementMinutes;
-  }
-*/
   calculatecolorIndex(double bmi) {
     int index;
     if (bmi >= 35) {
@@ -109,23 +81,6 @@ class SimulationController extends GetxController
       return index;
     } else {
       index = 1;
-      return index;
-    }
-  }
-
-  calculateimageIndex(double bmi) {
-    int index;
-    if (bmi >= 35) {
-      index = 0;
-      return index;
-    } else if (bmi >= 30) {
-      index = 1;
-      return index;
-    } else if (bmi >= 25) {
-      index = 2;
-      return index;
-    } else {
-      index = 3;
       return index;
     }
   }
@@ -162,9 +117,11 @@ class SimulationController extends GetxController
 
   void stop() {
     simulate.toggle();
-    animationcontroller.stop();
     bbgcIndex.value = 0;
     bbgcStopIndex.value = 1;
+    final AssetsController assetsController = Get.find<AssetsController>();
+    assetsController.gymWorld.value.helthyfood.active = false;
+    assetsController.gymWorld.value.unhelthyfood.active = false;
     update();
   }
 

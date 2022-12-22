@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:achieve_your_goal/view/home_screen.dart';
 import 'package:achieve_your_goal/view/simulation_screen.dart';
 import 'package:flutter/material.dart';

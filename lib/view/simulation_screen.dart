@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:spritewidget/spritewidget.dart';
 
+import '../widgets/gymworld_widget.dart';
+
 class SimulationScreen extends StatelessWidget {
   SimulationScreen({Key? key, required this.person, required this.dayDuration})
       : super(key: key);
@@ -70,7 +72,6 @@ class SimulationScreen extends StatelessWidget {
                                 Text('Gewicht in Kg: ${person.value.weight}')),
                             Obx(() => Text('BMI: ${person.value.bmi} ')),
                             Obx(() => Text('Tage:  ${tage.value}')),
-                            Obx(() => Text('Tage:  ${controller.movement}')),
                           ],
                         ))),
                     Container(
@@ -110,7 +111,10 @@ class SimulationScreen extends StatelessWidget {
                       : Container(
                           height: 600,
                           child: Stack(
-                            children: [SpriteWidget(assetsController.gymWorld)],
+                            children: [
+                              Obx(() =>
+                                  SpriteWidget(assetsController.gymWorld.value))
+                            ],
                           )))),
               Expanded(
                   flex: 2,

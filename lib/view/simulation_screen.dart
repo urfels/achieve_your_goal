@@ -86,6 +86,11 @@ class SimulationScreen extends StatelessWidget {
                               if (controller.simulate.value != true) {
                                 controller.simulation(dayDuration,
                                     movementMinutes, colorIndex, tage, person);
+                                const snackBar = SnackBar(
+                                  content: Text('Simulation gestartet'),
+                                );
+                                ScaffoldMessenger.of(context)
+                                    .showSnackBar(snackBar);
                               }
                             },
                             child: const Text('Simulation Starten')))),
@@ -100,6 +105,11 @@ class SimulationScreen extends StatelessWidget {
                             onPressed: () {
                               if (controller.simulate.value == true) {
                                 controller.stop();
+                                const snackBar = SnackBar(
+                                  content: Text('Simulation gestoppt'),
+                                );
+                                ScaffoldMessenger.of(context)
+                                    .showSnackBar(snackBar);
                               }
                             },
                             child: const Text('Simulation stoppen')))),
@@ -150,6 +160,11 @@ class SimulationScreen extends StatelessWidget {
                                         _trainingMiddelController.text,
                                         _trainingHardController.text,
                                         palController);
+                                    const snackBar = SnackBar(
+                                      content: Text('Parameter geupdatet'),
+                                    );
+                                    ScaffoldMessenger.of(context)
+                                        .showSnackBar(snackBar);
                                   }
                                 },
                                 child: const Text('Parameter updaten'))),

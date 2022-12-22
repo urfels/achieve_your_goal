@@ -35,7 +35,7 @@ class HomeScreen extends StatelessWidget {
         ),
         const Expanded(
           flex: 1,
-          child: Text('Geben Sie hier ihre Persönlichen Daten ein.',
+          child: Text('Geben Sie die Daten für die Simulation ein.',
               style: TextStyle(fontSize: 20)),
         ),
         Expanded(

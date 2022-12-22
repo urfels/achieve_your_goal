@@ -65,7 +65,7 @@ class SimulationScreen extends StatelessWidget {
                               flex: 1,
                             ),
                             Expanded(
-                                flex: 3,
+                                flex: 2,
                                 child: Obx(() => AnimatedContainer(
                                     width: double.infinity,
                                     margin:
@@ -141,7 +141,7 @@ class SimulationScreen extends StatelessWidget {
                                             'Simulation stoppen'))))),
                             const Spacer(flex: 1),
                             Expanded(
-                                flex: 10,
+                                flex: 13,
                                 child: Form(
                                     key: _adjustFormKey,
                                     child: Column(

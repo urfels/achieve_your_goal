@@ -76,8 +76,7 @@ class HomeScreen extends StatelessWidget {
                                             double.parse(
                                                 _weightController.text),
                                             int.parse(_heightController.text));
-                                        AssetImage image =
-                                            controller.chooseImage(bmi);
+
                                         Get.to(SimulationScreen(
                                             dayDuration:
                                                 daySecondsController.obs,
@@ -89,7 +88,6 @@ class HomeScreen extends StatelessWidget {
                                               weight: double.parse(
                                                   _weightController.text),
                                               bmi: bmi,
-                                              image: image,
                                               pal: palController,
                                               kcalZufuhr: int.parse(
                                                   _kcalController.text),

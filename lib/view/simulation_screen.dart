@@ -6,8 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:spritewidget/spritewidget.dart';
 
-import '../widgets/gymworld_widget.dart';
-
+// ignore: must_be_immutable
 class SimulationScreen extends StatelessWidget {
   SimulationScreen({Key? key, required this.person, required this.dayDuration})
       : super(key: key);
@@ -24,8 +23,6 @@ class SimulationScreen extends StatelessWidget {
   final RxInt tage = 0.obs;
   final Rx<Person> person;
   final RxInt colorIndex = 4.obs;
-  final RxInt imageIndex = 0.obs;
-  late RxInt movementMinutes = (dayDuration.value / 2).round().obs;
   final List<dynamic> containerColor = [
     Colors.red,
     Colors.orange,
@@ -98,12 +95,8 @@ class SimulationScreen extends StatelessWidget {
                                         onPressed: () {
                                           if (controller.simulate.value !=
                                               true) {
-                                            controller.simulation(
-                                                dayDuration,
-                                                movementMinutes,
-                                                colorIndex,
-                                                tage,
-                                                person);
+                                            controller.simulation(dayDuration,
+                                                colorIndex, tage, person);
                                             const snackBar = SnackBar(
                                               content:
                                                   Text('Simulation gestartet'),
@@ -208,7 +201,7 @@ class SimulationScreen extends StatelessWidget {
                   flex: 7,
                   child: (assetsController.assetsloaded.value == false)
                       ? const SizedBox()
-                      : Container(
+                      : SizedBox(
                           height: 600,
                           child: Stack(
                             children: [

@@ -1,7 +1,5 @@
 import 'dart:async';
 import 'package:achieve_your_goal/controller/assets_controller.dart';
-import 'package:achieve_your_goal/widgets/gymworld_widget.dart';
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../models/person_model.dart';
 
@@ -12,16 +10,14 @@ class SimulationController extends GetxController
   final RxInt bbgcStopIndex = 1.obs;
   RxBool simulate = false.obs;
 
-  Future<void> simulation(RxInt dayDuration, RxInt movementMinutes,
-      RxInt colorIndex, RxInt tage, Rx<Person> person) async {
+  Future<void> simulation(RxInt dayDuration, RxInt colorIndex, RxInt tage,
+      Rx<Person> person) async {
     if (simulate.value == false) {
       simulate.toggle();
     }
     while (simulate.value) {
-      update();
       bbgcIndex.value = 1;
       bbgcStopIndex.value = 0;
-      movement.value = movementMinutes.value.round();
       update();
       double basalmetabolism = await calculateBasalMetabolism(
           person.value.weight, person.value.height, person.value.age);

@@ -1,11 +1,8 @@
-import 'package:flutter/cupertino.dart';
-
 class Person {
   int age;
   int height;
   double weight;
   double bmi;
-  AssetImage image;
   double pal;
   int kcalZufuhr;
   int trainingEasy;
@@ -17,7 +14,6 @@ class Person {
       required this.height,
       required this.weight,
       required this.bmi,
-      required this.image,
       required this.pal,
       required this.kcalZufuhr,
       required this.trainingEasy,

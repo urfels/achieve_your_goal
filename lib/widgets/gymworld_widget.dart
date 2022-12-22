@@ -1,5 +1,4 @@
 import 'package:achieve_your_goal/controller/assets_controller.dart';
-import 'package:flutter/animation.dart';
 import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
 import 'package:spritewidget/spritewidget.dart';

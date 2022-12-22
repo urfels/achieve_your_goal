@@ -40,7 +40,7 @@ class FlyingHealthyFood extends sp.Node {
     ParticleSystem food = ParticleSystem(
       texture: texture,
       blendMode: BlendMode.srcATop,
-      posVar: const Offset(1300.0, 0.0),
+      posVar: const Offset(512.0, 512.0),
       direction: 90.0,
       directionVar: 0.0,
       speed: 150.0 / distance,
@@ -107,7 +107,7 @@ class FlyingUnhealthyFood extends sp.Node {
     ParticleSystem food = ParticleSystem(
       texture: texture,
       blendMode: BlendMode.srcATop,
-      posVar: const Offset(1300.0, 0.0),
+      posVar: const Offset(512.0, 512.0),
       direction: 90.0,
       directionVar: 0.0,
       speed: 150.0 / distance,

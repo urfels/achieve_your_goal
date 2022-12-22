@@ -30,10 +30,13 @@ class HomeScreen extends StatelessWidget {
         ),
         const Expanded(
           flex: 2,
-          child: Text('Achieve your Goals', style: TextStyle(fontSize: 40)),
+          child: Text('Die Körpergewichts Simulation',
+              style: TextStyle(fontSize: 40)),
         ),
-        const Spacer(
+        const Expanded(
           flex: 1,
+          child: Text('Geben Sie hier ihre Persönlichen Daten ein.',
+              style: TextStyle(fontSize: 20)),
         ),
         Expanded(
           flex: 12,

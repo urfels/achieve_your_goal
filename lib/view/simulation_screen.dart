@@ -50,70 +50,160 @@ class SimulationScreen extends StatelessWidget {
     return Scaffold(
         body: Column(
       children: <Widget>[
-        const Spacer(
-          flex: 1,
-        ),
         Expanded(
           flex: 8,
           child: Row(
             children: [
               Expanded(
                   flex: 2,
-                  child: Column(children: <Widget>[
-                    Obx(() => AnimatedContainer(
-                        width: double.infinity,
-                        margin: const EdgeInsets.fromLTRB(30, 0, 30, 0),
-                        color: containerColor[colorIndex.value],
-                        duration: const Duration(seconds: 1),
-                        child: Column(
+                  child: Container(
+                      color: Colors.grey.shade300,
+                      child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
-                            Obx(() =>
-                                Text('Gewicht in Kg: ${person.value.weight}')),
-                            Obx(() => Text('BMI: ${person.value.bmi} ')),
-                            Obx(() => Text('Tage:  ${tage.value}')),
-                          ],
-                        ))),
-                    Container(
-                        margin: const EdgeInsets.fromLTRB(30, 20, 30, 0),
-                        width: double.infinity,
-                        child: Obx(() => ElevatedButton(
-                            style: ButtonStyle(
-                              backgroundColor:
-                                  buttonbgcolor[controller.bbgcIndex.value],
+                            const Spacer(
+                              flex: 1,
                             ),
-                            onPressed: () {
-                              if (controller.simulate.value != true) {
-                                controller.simulation(dayDuration,
-                                    movementMinutes, colorIndex, tage, person);
-                                const snackBar = SnackBar(
-                                  content: Text('Simulation gestartet'),
-                                );
-                                ScaffoldMessenger.of(context)
-                                    .showSnackBar(snackBar);
-                              }
-                            },
-                            child: const Text('Simulation Starten')))),
-                    Container(
-                        margin: const EdgeInsets.fromLTRB(30, 20, 30, 0),
-                        width: double.infinity,
-                        child: Obx(() => ElevatedButton(
-                            style: ButtonStyle(
-                              backgroundColor:
-                                  buttonbgcolor[controller.bbgcStopIndex.value],
-                            ),
-                            onPressed: () {
-                              if (controller.simulate.value == true) {
-                                controller.stop();
-                                const snackBar = SnackBar(
-                                  content: Text('Simulation gestoppt'),
-                                );
-                                ScaffoldMessenger.of(context)
-                                    .showSnackBar(snackBar);
-                              }
-                            },
-                            child: const Text('Simulation stoppen')))),
-                  ])),
+                            Expanded(
+                                flex: 3,
+                                child: Obx(() => AnimatedContainer(
+                                    width: double.infinity,
+                                    margin:
+                                        const EdgeInsets.fromLTRB(30, 0, 30, 0),
+                                    color: containerColor[colorIndex.value],
+                                    duration: const Duration(seconds: 1),
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: <Widget>[
+                                        const Text('Ihre aktuellen Daten'),
+                                        Obx(() => Text(
+                                            'Gewicht in Kg: ${person.value.weight}')),
+                                        Obx(() =>
+                                            Text('BMI: ${person.value.bmi} ')),
+                                        Obx(() => Text('Tage:  ${tage.value}')),
+                                      ],
+                                    )))),
+                            Expanded(
+                                flex: 1,
+                                child: Container(
+                                    margin: const EdgeInsets.fromLTRB(
+                                        30, 20, 30, 0),
+                                    width: double.infinity,
+                                    child: Obx(() => ElevatedButton(
+                                        style: ButtonStyle(
+                                          backgroundColor: buttonbgcolor[
+                                              controller.bbgcIndex.value],
+                                        ),
+                                        onPressed: () {
+                                          if (controller.simulate.value !=
+                                              true) {
+                                            controller.simulation(
+                                                dayDuration,
+                                                movementMinutes,
+                                                colorIndex,
+                                                tage,
+                                                person);
+                                            const snackBar = SnackBar(
+                                              content:
+                                                  Text('Simulation gestartet'),
+                                            );
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(snackBar);
+                                          }
+                                        },
+                                        child: const Text(
+                                            'Simulation Starten'))))),
+                            Expanded(
+                                flex: 1,
+                                child: Container(
+                                    margin: const EdgeInsets.fromLTRB(
+                                        30, 20, 30, 0),
+                                    width: double.infinity,
+                                    child: Obx(() => ElevatedButton(
+                                        style: ButtonStyle(
+                                          backgroundColor: buttonbgcolor[
+                                              controller.bbgcStopIndex.value],
+                                        ),
+                                        onPressed: () {
+                                          if (controller.simulate.value ==
+                                              true) {
+                                            controller.stop();
+                                            const snackBar = SnackBar(
+                                              content:
+                                                  Text('Simulation gestoppt'),
+                                            );
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(snackBar);
+                                          }
+                                        },
+                                        child: const Text(
+                                            'Simulation stoppen'))))),
+                            const Spacer(flex: 1),
+                            Expanded(
+                                flex: 10,
+                                child: Form(
+                                    key: _adjustFormKey,
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: <Widget>[
+                                        const Text('Updaten Sie ihre Daten',
+                                            style: TextStyle(fontSize: 20)),
+                                        KcalFormField(
+                                            kcalController: _kcalController),
+                                        TrainingEasyFormField(
+                                            trainingEasyController:
+                                                _trainingEasyController),
+                                        TrainingMiddelFormfield(
+                                            trainingMiddelController:
+                                                _trainingMiddelController),
+                                        TrainingHardFormField(
+                                            trainingHardController:
+                                                _trainingHardController),
+                                        PalFormField(
+                                            palController: palController),
+                                        Container(
+                                          margin: const EdgeInsets.fromLTRB(
+                                              30, 20, 30, 0),
+                                          width: double.infinity,
+                                          child: Obx(() => ElevatedButton(
+                                              style: ButtonStyle(
+                                                backgroundColor: buttonbgcolor[
+                                                    controller.bbgcIndex.value],
+                                              ),
+                                              onPressed: () {
+                                                if (controller.simulate.value !=
+                                                        true &&
+                                                    _adjustFormKey.currentState!
+                                                        .validate()) {
+                                                  controller.updateVariables(
+                                                      person,
+                                                      _kcalController.text,
+                                                      _trainingEasyController
+                                                          .text,
+                                                      _trainingMiddelController
+                                                          .text,
+                                                      _trainingHardController
+                                                          .text,
+                                                      palController);
+                                                  const snackBar = SnackBar(
+                                                    content: Text(
+                                                        'Parameter geupdatet'),
+                                                  );
+                                                  ScaffoldMessenger.of(context)
+                                                      .showSnackBar(snackBar);
+                                                }
+                                              },
+                                              child: const Text(
+                                                  'Parameter updaten'))),
+                                        ),
+                                      ],
+                                    ))),
+                            const Spacer(flex: 1)
+                          ]))),
               Obx(() => Expanded(
                   flex: 7,
                   child: (assetsController.assetsloaded.value == false)
@@ -126,51 +216,6 @@ class SimulationScreen extends StatelessWidget {
                                   SpriteWidget(assetsController.gymWorld.value))
                             ],
                           )))),
-              Expanded(
-                  flex: 2,
-                  child: Form(
-                      key: _adjustFormKey,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: <Widget>[
-                          KcalFormField(kcalController: _kcalController),
-                          TrainingEasyFormField(
-                              trainingEasyController: _trainingEasyController),
-                          TrainingMiddelFormfield(
-                              trainingMiddelController:
-                                  _trainingMiddelController),
-                          TrainingHardFormField(
-                              trainingHardController: _trainingHardController),
-                          PalFormField(palController: palController),
-                          Container(
-                            margin: const EdgeInsets.fromLTRB(30, 20, 30, 0),
-                            width: double.infinity,
-                            child: Obx(() => ElevatedButton(
-                                style: ButtonStyle(
-                                  backgroundColor:
-                                      buttonbgcolor[controller.bbgcIndex.value],
-                                ),
-                                onPressed: () {
-                                  if (controller.simulate.value != true &&
-                                      _adjustFormKey.currentState!.validate()) {
-                                    controller.updateVariables(
-                                        person,
-                                        _kcalController.text,
-                                        _trainingEasyController.text,
-                                        _trainingMiddelController.text,
-                                        _trainingHardController.text,
-                                        palController);
-                                    const snackBar = SnackBar(
-                                      content: Text('Parameter geupdatet'),
-                                    );
-                                    ScaffoldMessenger.of(context)
-                                        .showSnackBar(snackBar);
-                                  }
-                                },
-                                child: const Text('Parameter updaten'))),
-                          )
-                        ],
-                      ))),
             ],
           ),
         )

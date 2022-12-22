@@ -223,24 +223,3 @@ class SimulationScreen extends StatelessWidget {
     ));
   }
 }
-
-/*
-                          PositionedTransition(
-                              rect: relativeRectTween
-                                  .animate(controller.animationcontroller)
-                                ..addListener(() {
-                                  controller.update();
-                                }),
-                              child: Obx(() => AnimatedContainer(
-                                    height: 600,
-                                    width: 600,
-                                    decoration: BoxDecoration(
-                                      image: DecorationImage(
-                                        image: person.value.image,
-                                        fit: BoxFit.scaleDown,
-                                      ),
-                                    ),
-                                    duration: Duration(
-                                        milliseconds: movementMinutes.value),
-                                  )))
-                      */

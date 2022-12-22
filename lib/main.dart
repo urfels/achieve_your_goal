@@ -1,8 +1,13 @@
 import 'package:achieve_your_goal/view/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:window_manager/window_manager.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  // Must add this line.
+  await windowManager.ensureInitialized();
+  await windowManager.maximize();
   runApp(const MyApp());
 }
 

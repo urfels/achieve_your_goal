@@ -80,7 +80,7 @@ class SimulationController extends GetxController
     return bmi;
   }
 
-  kaloriesToWeight(kalories) {
+  kaloriesToWeight(double kalories) {
     double weight = kalories / 7000;
     return weight;
   }
@@ -116,7 +116,8 @@ class SimulationController extends GetxController
     update();
   }
 
-  void updateVariables(person, kcal, trainEasy, trainMiddel, trainHard, pal) {
+  void updateVariables(Rx<Person> person, String kcal, String trainEasy,
+      String trainMiddel, String trainHard, double pal) {
     person.value.kcalZufuhr = int.parse(kcal);
     person.value.trainingEasy = int.parse(trainEasy);
     person.value.trainigMiddel = int.parse(trainMiddel);

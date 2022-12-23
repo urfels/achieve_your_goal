@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 import 'package:achieve_your_goal/controller/assets_controller.dart';
 import 'package:get/get.dart';
 import '../models/person_model.dart';
@@ -23,8 +24,11 @@ class SimulationController extends GetxController
           person.value.weight, person.value.height, person.value.age);
       double performanceTurnover =
           await calculatePerformanceTurnover(basalmetabolism, person.value.pal);
-      double addedWeight = (person.value.kcalZufuhr / 7000);
-      double usedKcal = await calculateKcalthrowSport(
+      // kcal zufuhr mit Zufallsparameter wie anforderungsSpezifikation
+      // um Schnwankungen im Essverhalten zu Simulieren
+      double addedWeight =
+          ((person.value.kcalZufuhr + randomInt(-300, 600)) / 7000);
+      double usedKcal = await calculateKcalThrowSport(
           person.value.trainingEasy,
           person.value.trainigMiddel,
           person.value.trainingHard,
@@ -98,10 +102,12 @@ class SimulationController extends GetxController
     return basalMetabolism;
   }
 
-  calculateKcalthrowSport(int easy, int middel, int hard, double weight) {
-    double kcalEasy = (5.5 / 60 * easy * weight);
-    double kcalMiddel = (8 / 60 * middel * weight);
-    double kcalHard = (11 / 60 * hard * weight);
+  // Gausschische Verteilte Zufallszahle eingebaut um trainings Zeiten
+  //die Ausfallen und mal kürzer oder länger sind zu Simulieren
+  calculateKcalThrowSport(int easy, int middel, int hard, double weight) {
+    double kcalEasy = (5.5 / 60 * (easy * gaussianDistribution(2)) * weight);
+    double kcalMiddel = (8 / 60 * (middel * gaussianDistribution(2)) * weight);
+    double kcalHard = (11 / 60 * (hard * gaussianDistribution(2)) * weight);
     double kcaltotal = (kcalEasy + kcalMiddel + kcalHard) / 7000;
     return kcaltotal;
   }
@@ -128,5 +134,22 @@ class SimulationController extends GetxController
     person.value.trainingHard = int.parse(trainHard);
     person.value.pal = pal;
     update();
+  }
+
+  int randomInt(int min, int max) {
+    return Random().nextInt(max - min + 1) + min;
+  }
+
+  double randomDouble(double max) {
+    return Random().nextDouble() * max;
+  }
+
+  double gaussianDistribution(double max) {
+    double randomGauss = (randomDouble(max) +
+            randomDouble(max) +
+            randomDouble(max) +
+            randomDouble(max)) /
+        4;
+    return randomGauss;
   }
 }

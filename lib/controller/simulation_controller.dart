@@ -27,7 +27,7 @@ class SimulationController extends GetxController
       // kcal zufuhr mit Zufallsparameter wie anforderungsSpezifikation
       // um Schnwankungen im Essverhalten zu Simulieren
       double addedWeight =
-          ((person.value.kcalZufuhr + randomInt(-300, 600)) / 7000);
+          ((person.value.kcalZufuhr + randomInt(-300, 800)) / 7000);
       double usedKcal = await calculateKcalThrowSport(
           person.value.trainingEasy,
           person.value.trainigMiddel,

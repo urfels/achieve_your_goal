@@ -28,7 +28,7 @@ class AssetsController extends GetxController {
     });
   }
 
-  Future<void> loadAssets(AssetBundle bundle, context) async {
+  Future<void> loadAssets(AssetBundle bundle, BuildContext context) async {
     // Load images using an ImageMap
     images = ImageMap();
     await images.load(<String>[
@@ -36,6 +36,7 @@ class AssetsController extends GetxController {
       'assets/images/fitnessstudio.png',
       'assets/images/background.jpg',
     ]);
+    // ignore: use_build_context_synchronously
     String json = await DefaultAssetBundle.of(context)
         .loadString('assets/images/foodspritesheet.json');
     sprites = SpriteSheet(

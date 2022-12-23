@@ -36,18 +36,7 @@ class SimulationController extends GetxController
       double newWeight =
           (person.value.weight - performanceTurnover + addedWeight - usedKcal)
               .toPrecision(2);
-      if (newWeight < person.value.weight) {
-        final AssetsController assetsController = Get.find<AssetsController>();
-
-        assetsController.gymWorld.value.helthyfood.active = true;
-        assetsController.gymWorld.value.unhelthyfood.active = false;
-        update();
-      } else {
-        final AssetsController assetsController = Get.find<AssetsController>();
-        assetsController.gymWorld.value.helthyfood.active = false;
-        assetsController.gymWorld.value.unhelthyfood.active = true;
-        update();
-      }
+      setFlyingFood(newWeight, person.value.weight);
       person.update((val) {
         val!.weight = newWeight;
       });
@@ -151,5 +140,20 @@ class SimulationController extends GetxController
             randomDouble(max)) /
         4;
     return randomGauss;
+  }
+
+  void setFlyingFood(double newWeight, double weight) {
+    if (newWeight < weight) {
+      final AssetsController assetsController = Get.find<AssetsController>();
+
+      assetsController.gymWorld.value.helthyfood.active = true;
+      assetsController.gymWorld.value.unhelthyfood.active = false;
+      update();
+    } else {
+      final AssetsController assetsController = Get.find<AssetsController>();
+      assetsController.gymWorld.value.helthyfood.active = false;
+      assetsController.gymWorld.value.unhelthyfood.active = true;
+      update();
+    }
   }
 }

@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:achieve_your_goal/controller/assets_controller.dart';
 import 'package:get/get.dart';
 import '../models/person_model.dart';
+import '../widgets/gymworld_widget.dart';
 
 class SimulationController extends GetxController
     with GetTickerProviderStateMixin {
@@ -45,8 +46,7 @@ class SimulationController extends GetxController
       person.update((val) {
         val!.bmi = newBmi;
       });
-      int newcolorIndex = await calculatecolorIndex(newBmi);
-      colorIndex.value = newcolorIndex;
+      calculateBmiDependencies(newBmi, colorIndex);
       update();
       tage.value++;
 
@@ -54,23 +54,38 @@ class SimulationController extends GetxController
     }
   }
 
-  calculatecolorIndex(double bmi) {
-    int index;
+  void calculateBmiDependencies(double bmi, RxInt colorIndex) {
+    final AssetsController assetsController = Get.find<AssetsController>();
     if (bmi >= 35) {
-      index = 0;
-      return index;
+      colorIndex.value = 0;
+      assetsController.gymWorld.value.bmiForm.removeAllChildren();
+      BmiFormSingle fat = addBmiFormSingle('fat_sm.png');
+      assetsController.gymWorld.value.bmiForm.addChild(fat);
+      update();
     } else if (bmi >= 30) {
-      index = 1;
-      return index;
+      colorIndex.value = 1;
+      assetsController.gymWorld.value.bmiForm.removeAllChildren();
+      BmiFormSingle mediumFat = addBmiFormSingle('medium_fat_sm.png');
+      assetsController.gymWorld.value.bmiForm.addChild(mediumFat);
+      update();
     } else if (bmi >= 25) {
-      index = 2;
-      return index;
+      colorIndex.value = 2;
+      assetsController.gymWorld.value.bmiForm.removeAllChildren();
+      BmiFormSingle medium = addBmiFormSingle('medium_sm.png');
+      assetsController.gymWorld.value.bmiForm.addChild(medium);
+      update();
     } else if (bmi >= 18.5) {
-      index = 3;
-      return index;
+      colorIndex.value = 3;
+      assetsController.gymWorld.value.bmiForm.removeAllChildren();
+      BmiFormSingle slimMiddel = addBmiFormSingle('slim_middel_sm.png');
+      assetsController.gymWorld.value.bmiForm.addChild(slimMiddel);
+      update();
     } else {
-      index = 1;
-      return index;
+      colorIndex.value = 1;
+      assetsController.gymWorld.value.bmiForm.removeAllChildren();
+      BmiFormSingle slim = addBmiFormSingle('slim_sm.png');
+      assetsController.gymWorld.value.bmiForm.addChild(slim);
+      update();
     }
   }
 
@@ -111,8 +126,8 @@ class SimulationController extends GetxController
     bbgcIndex.value = 0;
     bbgcStopIndex.value = 1;
     final AssetsController assetsController = Get.find<AssetsController>();
-    assetsController.gymWorld.value.helthyfood.active = false;
-    assetsController.gymWorld.value.unhelthyfood.active = false;
+    assetsController.gymWorld.value.helthyFood.active = false;
+    assetsController.gymWorld.value.unhelthyFood.active = false;
     update();
   }
 
@@ -147,14 +162,20 @@ class SimulationController extends GetxController
     if (newWeight < weight) {
       final AssetsController assetsController = Get.find<AssetsController>();
 
-      assetsController.gymWorld.value.helthyfood.active = true;
-      assetsController.gymWorld.value.unhelthyfood.active = false;
+      assetsController.gymWorld.value.helthyFood.active = true;
+      assetsController.gymWorld.value.unhelthyFood.active = false;
       update();
     } else {
       final AssetsController assetsController = Get.find<AssetsController>();
-      assetsController.gymWorld.value.helthyfood.active = false;
-      assetsController.gymWorld.value.unhelthyfood.active = true;
+      assetsController.gymWorld.value.helthyFood.active = false;
+      assetsController.gymWorld.value.unhelthyFood.active = true;
       update();
     }
+  }
+
+  BmiFormSingle addBmiFormSingle(String textureName) {
+    final AssetsController assetsController = Get.find<AssetsController>();
+    return BmiFormSingle(assetsController.sprites2[textureName]!,
+        name: textureName);
   }
 }

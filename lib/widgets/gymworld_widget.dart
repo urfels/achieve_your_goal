@@ -156,15 +156,21 @@ class FlyingUnhealthyFood extends sp.Node {
   }
 }
 
-enum Food {
-  non,
-  unhelthy,
-  healthy,
+class BmiForm extends sp.Node {
+  BmiForm() {}
+}
+
+class BmiFormSingle extends Sprite {
+  String name;
+
+  BmiFormSingle(SpriteTexture texture, {this.name = ''})
+      : super(texture: texture);
 }
 
 class GymWorld extends NodeWithSize {
-  final FlyingHealthyFood helthyfood = FlyingHealthyFood();
-  final FlyingUnhealthyFood unhelthyfood = FlyingUnhealthyFood();
+  final FlyingHealthyFood helthyFood = FlyingHealthyFood();
+  final FlyingUnhealthyFood unhelthyFood = FlyingUnhealthyFood();
+  final BmiForm bmiForm = BmiForm();
   GymWorld() : super(const Size(2048.0, 2048.0)) {
     final AssetsController assetsController = Get.find<AssetsController>();
 
@@ -174,7 +180,9 @@ class GymWorld extends NodeWithSize {
     gymbackground.position = const Offset(512, 512);
     addChild(gymbackground);
 
-    addChild(helthyfood);
-    addChild(unhelthyfood);
+    addChild(helthyFood);
+    addChild(unhelthyFood);
+    bmiForm.position = const Offset(80, 510);
+    addChild(bmiForm);
   }
 }

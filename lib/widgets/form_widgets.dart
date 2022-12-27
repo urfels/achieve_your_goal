@@ -310,8 +310,8 @@ class DaySecondsFormField extends StatelessWidget {
               fillColor: Colors.white,
               filled: true,
               border: OutlineInputBorder()),
-          onChanged: ((value) {
-            HomeScreen.daySecondsController = value!;
+          onChanged: ((val) {
+            HomeScreen.daySecondsController.value = val!;
             // SimulationScreen.daySecondsController = value;
           }),
           items: daySeconds.map((int val) {

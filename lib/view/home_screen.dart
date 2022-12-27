@@ -17,7 +17,7 @@ class HomeScreen extends StatelessWidget {
   final _trainingMiddelController = TextEditingController();
   final _trainingHardController = TextEditingController();
   static double palController = 0;
-  static int daySecondsController = 0;
+  static RxInt daySecondsController = 0.obs;
   final HomeController controller = Get.put(HomeController());
 
   @override
@@ -65,7 +65,7 @@ class HomeScreen extends StatelessWidget {
                         TrainingHardFormField(
                             trainingHardController: _trainingHardController),
                         DaySecondsFormField(
-                            daySecondsController: daySecondsController),
+                            daySecondsController: daySecondsController.value),
                         Container(
                             margin: const EdgeInsets.only(top: 30),
                             child: Center(
@@ -78,8 +78,7 @@ class HomeScreen extends StatelessWidget {
                                             int.parse(_heightController.text));
 
                                         Get.to(SimulationScreen(
-                                            dayDuration:
-                                                daySecondsController.obs,
+                                            dayDuration: daySecondsController,
                                             person: Person(
                                               age: int.parse(
                                                   _ageController.text),

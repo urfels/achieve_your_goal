@@ -1,4 +1,6 @@
 import 'package:achieve_your_goal/controller/assets_controller.dart';
+import 'package:achieve_your_goal/controller/simulation_controller.dart';
+import 'package:achieve_your_goal/view/home_screen.dart';
 import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
 import 'package:spritewidget/spritewidget.dart';
@@ -48,9 +50,9 @@ class FlyingHealthyFood extends sp.Node {
       startSizeVar: 0.3 / distance,
       endSize: 1.2 / distance,
       endSizeVar: 0.2 / distance,
-      life: 20.0 * distance,
+      life: HomeScreen.daySecondsController.value / 1000,
       lifeVar: 10.0 * distance,
-      emissionRate: 0.25,
+      emissionRate: 3 / (HomeScreen.daySecondsController.value / 1000),
       startRotationVar: 360.0,
       endRotationVar: 360.0,
       radialAccelerationVar: 10.0 / distance,
@@ -103,6 +105,7 @@ class FlyingUnhealthyFood extends sp.Node {
   final List<ParticleSystem> _food = <ParticleSystem>[];
 
   void _addFlyingFood(SpriteTexture texture, double distance) {
+    final SimulationController controller = Get.put(SimulationController());
     ParticleSystem food = ParticleSystem(
       texture: texture,
       blendMode: BlendMode.srcATop,
@@ -115,9 +118,9 @@ class FlyingUnhealthyFood extends sp.Node {
       startSizeVar: 0.3 / distance,
       endSize: 1.2 / distance,
       endSizeVar: 0.2 / distance,
-      life: 20.0 * distance,
+      life: HomeScreen.daySecondsController.value / 1000,
       lifeVar: 10.0 * distance,
-      emissionRate: 0.25,
+      emissionRate: 3 / (HomeScreen.daySecondsController.value / 1000),
       startRotationVar: 360.0,
       endRotationVar: 360.0,
       radialAccelerationVar: 10.0 / distance,

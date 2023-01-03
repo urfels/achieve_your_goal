@@ -19,7 +19,8 @@
 			"sourceSize": {
 				"w": 256,
 				"h": 256
-			}
+			},
+			"pivot": {"x":0.5,"y":0.5}
 		},
 		{
 			"filename": "run1.png",
@@ -40,7 +41,8 @@
 			"sourceSize": {
 				"w": 256,
 				"h": 256
-			}
+			},
+			"pivot": {"x":0.5,"y":0.5}
 		},
 		{
 			"filename": "run2.png",
@@ -61,7 +63,8 @@
 			"sourceSize": {
 				"w": 256,
 				"h": 256
-			}
+			},
+			"pivot": {"x":0.5,"y":0.5}
 		},
 		{
 			"filename": "run3.png",
@@ -82,7 +85,8 @@
 			"sourceSize": {
 				"w": 256,
 				"h": 256
-			}
+			},
+			"pivot": {"x":0.5,"y":0.5}
 		},
 		{
 			"filename": "run4.png",
@@ -103,7 +107,8 @@
 			"sourceSize": {
 				"w": 256,
 				"h": 256
-			}
+			},
+			"pivot": {"x":0.5,"y":0.5}
 		},
 		{
 			"filename": "run5.png",
@@ -124,7 +129,8 @@
 			"sourceSize": {
 				"w": 256,
 				"h": 256
-			}
+			},
+			"pivot": {"x":0.5,"y":0.5}
 		},
 		{
 			"filename": "run6.png",
@@ -145,7 +151,8 @@
 			"sourceSize": {
 				"w": 256,
 				"h": 256
-			}
+			},
+			"pivot": {"x":0.5,"y":0.5}
 		},
 		{
 			"filename": "run7.png",
@@ -166,7 +173,8 @@
 			"sourceSize": {
 				"w": 256,
 				"h": 256
-			}
+			},
+			"pivot": {"x":0.5,"y":0.5}
 		}
 	],
 	"meta": {

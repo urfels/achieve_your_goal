@@ -1,5 +1,4 @@
 import 'package:achieve_your_goal/controller/assets_controller.dart';
-import 'package:achieve_your_goal/controller/simulation_controller.dart';
 import 'package:achieve_your_goal/view/home_screen.dart';
 import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
@@ -105,7 +104,6 @@ class FlyingUnhealthyFood extends sp.Node {
   final List<ParticleSystem> _food = <ParticleSystem>[];
 
   void _addFlyingFood(SpriteTexture texture, double distance) {
-    final SimulationController controller = Get.put(SimulationController());
     ParticleSystem food = ParticleSystem(
       texture: texture,
       blendMode: BlendMode.srcATop,
@@ -159,8 +157,54 @@ class FlyingUnhealthyFood extends sp.Node {
   }
 }
 
+class RunningPunk extends sp.Node {
+  final AssetsController assetsController = Get.find<AssetsController>();
+
+  RunningPunk() {
+    RunningPunkFrame run0 =
+        RunningPunkFrame(assetsController.runPunkSprite['run0.png']!);
+    run0.visible = false;
+    addChild(run0);
+    RunningPunkFrame run1 =
+        RunningPunkFrame(assetsController.runPunkSprite['run1.png']!);
+    run1.visible = false;
+    addChild(run1);
+    RunningPunkFrame run2 =
+        RunningPunkFrame(assetsController.runPunkSprite['run2.png']!);
+    run2.visible = false;
+    addChild(run2);
+    RunningPunkFrame run3 =
+        RunningPunkFrame(assetsController.runPunkSprite['run3.png']!);
+    run3.visible = false;
+    addChild(run3);
+    RunningPunkFrame run4 =
+        RunningPunkFrame(assetsController.runPunkSprite['run4.png']!);
+    run4.visible = false;
+    addChild(run4);
+    RunningPunkFrame run5 =
+        RunningPunkFrame(assetsController.runPunkSprite['run5.png']!);
+    run5.visible = false;
+    addChild(run5);
+    RunningPunkFrame run6 =
+        RunningPunkFrame(assetsController.runPunkSprite['run6.png']!);
+    run6.visible = false;
+    addChild(run6);
+    RunningPunkFrame run7 =
+        RunningPunkFrame(assetsController.runPunkSprite['run7.png']!);
+    run7.visible = false;
+    addChild(run7);
+  }
+}
+
+class RunningPunkFrame extends Sprite {
+  String name;
+
+  RunningPunkFrame(SpriteTexture texture, {this.name = ''})
+      : super(texture: texture);
+}
+
 class BmiForm extends sp.Node {
-  BmiForm() {}
+  BmiForm();
 }
 
 class BmiFormSingle extends Sprite {
@@ -174,6 +218,7 @@ class GymWorld extends NodeWithSize {
   final FlyingHealthyFood helthyFood = FlyingHealthyFood();
   final FlyingUnhealthyFood unhelthyFood = FlyingUnhealthyFood();
   final BmiForm bmiForm = BmiForm();
+  final RunningPunk runningPunk = RunningPunk();
   GymWorld() : super(const Size(2048.0, 2048.0)) {
     final AssetsController assetsController = Get.find<AssetsController>();
 
@@ -182,7 +227,8 @@ class GymWorld extends NodeWithSize {
     );
     gymbackground.position = const Offset(512, 512);
     addChild(gymbackground);
-
+    runningPunk.position = const Offset(1024, 1250);
+    addChild(runningPunk);
     addChild(helthyFood);
     addChild(unhelthyFood);
     bmiForm.position = const Offset(80, 510);

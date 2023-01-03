@@ -4,6 +4,7 @@ import 'package:achieve_your_goal/controller/assets_controller.dart';
 import 'package:get/get.dart';
 import '../models/person_model.dart';
 import '../widgets/gymworld_widget.dart';
+import 'package:spritewidget/spritewidget.dart' as sp;
 
 class SimulationController extends GetxController
     with GetTickerProviderStateMixin {
@@ -21,6 +22,7 @@ class SimulationController extends GetxController
       bbgcIndex.value = 1;
       bbgcStopIndex.value = 0;
       update();
+
       double basalmetabolism = await calculateBasalMetabolism(
           person.value.weight, person.value.height, person.value.age);
       double performanceTurnover =
@@ -49,7 +51,7 @@ class SimulationController extends GetxController
       calculateBmiDependencies(newBmi, colorIndex);
       update();
       tage.value++;
-
+      runPunk(dayDuration);
       await Future.delayed(Duration(milliseconds: dayDuration.value));
     }
   }
@@ -61,6 +63,7 @@ class SimulationController extends GetxController
       assetsController.gymWorld.value.bmiForm.removeAllChildren();
       BmiFormSingle fat = addBmiFormSingle('fat_sm.png');
       assetsController.gymWorld.value.bmiForm.addChild(fat);
+
       update();
     } else if (bmi >= 30) {
       colorIndex.value = 1;
@@ -131,6 +134,21 @@ class SimulationController extends GetxController
     update();
   }
 
+  Future<void> runPunk(RxInt dayduration) async {
+    final AssetsController assetsController = Get.find<AssetsController>();
+    List<sp.Node> punkChildren =
+        assetsController.gymWorld.value.runningPunk.children;
+
+    update();
+    for (var i = 0; i < punkChildren.length; i++) {
+      punkChildren.elementAt(i).visible = true;
+      update();
+      await Future.delayed(Duration(milliseconds: dayduration.value ~/ 8));
+      punkChildren.elementAt(i).visible = false;
+      update();
+    }
+  }
+
   void updateVariables(Rx<Person> person, String kcal, String trainEasy,
       String trainMiddel, String trainHard, double pal) {
     person.value.kcalZufuhr = int.parse(kcal);
@@ -161,7 +179,6 @@ class SimulationController extends GetxController
   void setFlyingFood(double newWeight, double weight) {
     if (newWeight < weight) {
       final AssetsController assetsController = Get.find<AssetsController>();
-
       assetsController.gymWorld.value.helthyFood.active = true;
       assetsController.gymWorld.value.unhelthyFood.active = false;
       update();

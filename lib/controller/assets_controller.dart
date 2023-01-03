@@ -55,9 +55,9 @@ class AssetsController extends GetxController {
     );
     // ignore: use_build_context_synchronously
     String json3 = await DefaultAssetBundle.of(context)
-        .loadString('assets/images/bmi_forms_spritesheet.json');
+        .loadString('assets/images/runpunkspritesheet.json');
     runPunkSprite = SpriteSheet(
-      image: images['assets/images/bmi_forms.png']!,
+      image: images['assets/images/runpunk.png']!,
       jsonDefinition: json3,
     );
   }

@@ -12,6 +12,7 @@ class AssetsController extends GetxController {
   RxBool assetsloaded = false.obs;
   late SpriteSheet sprites;
   late SpriteSheet sprites2;
+  late SpriteSheet runPunkSprite;
   late Rx<GymWorld> gymWorld;
 
   @override
@@ -36,6 +37,7 @@ class AssetsController extends GetxController {
       'assets/images/food.png',
       'assets/images/bmi_forms.png',
       'assets/images/background.jpg',
+      'assets/images/runpunk.png',
     ]);
     // ignore: use_build_context_synchronously
     String json = await DefaultAssetBundle.of(context)
@@ -50,6 +52,13 @@ class AssetsController extends GetxController {
     sprites2 = SpriteSheet(
       image: images['assets/images/bmi_forms.png']!,
       jsonDefinition: json2,
+    );
+    // ignore: use_build_context_synchronously
+    String json3 = await DefaultAssetBundle.of(context)
+        .loadString('assets/images/bmi_forms_spritesheet.json');
+    runPunkSprite = SpriteSheet(
+      image: images['assets/images/bmi_forms.png']!,
+      jsonDefinition: json3,
     );
   }
 }

@@ -51,7 +51,7 @@ class SimulationController extends GetxController
       calculateBmiDependencies(newBmi, colorIndex);
       update();
       tage.value++;
-      runPunk(dayDuration);
+      runPunk(dayDuration, simulate);
       await Future.delayed(Duration(milliseconds: dayDuration.value));
     }
   }
@@ -134,17 +134,26 @@ class SimulationController extends GetxController
     update();
   }
 
-  Future<void> runPunk(RxInt dayduration) async {
+  Future<void> runPunk(RxInt dayduration, RxBool simulate) async {
     final AssetsController assetsController = Get.find<AssetsController>();
     List<sp.Node> punkChildren =
         assetsController.gymWorld.value.runningPunk.children;
 
-    update();
-    for (var i = 0; i < punkChildren.length; i++) {
+    var i = 0;
+    for (var x = 0; x < dayduration.value;) {
+      if (!simulate.value) {
+        break;
+      }
       punkChildren.elementAt(i).visible = true;
       update();
-      await Future.delayed(Duration(milliseconds: dayduration.value ~/ 8));
+      int delay = 50;
+      await Future.delayed(Duration(milliseconds: delay));
       punkChildren.elementAt(i).visible = false;
+      i += 1;
+      if (i >= punkChildren.length) {
+        i = 0;
+      }
+      x += delay;
       update();
     }
   }

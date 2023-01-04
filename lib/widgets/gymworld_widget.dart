@@ -203,6 +203,40 @@ class RunningPunkFrame extends Sprite {
       : super(texture: texture);
 }
 
+class WeightLifting extends sp.Node {
+  final AssetsController assetsController = Get.find<AssetsController>();
+
+  WeightLifting() {
+    WeightLiftingFrame frame0 = WeightLiftingFrame(
+        assetsController.weightLiftingSprite['bell0_sm.png']!);
+    frame0.visible = false;
+    addChild(frame0);
+    WeightLiftingFrame frame1 = WeightLiftingFrame(
+        assetsController.weightLiftingSprite['bell1_sm.png']!);
+    frame1.visible = false;
+    addChild(frame1);
+    WeightLiftingFrame frame2 = WeightLiftingFrame(
+        assetsController.weightLiftingSprite['bell2_sm.png']!);
+    frame2.visible = false;
+    addChild(frame2);
+    WeightLiftingFrame frame3 = WeightLiftingFrame(
+        assetsController.weightLiftingSprite['bell3_sm.png']!);
+    frame3.visible = false;
+    addChild(frame3);
+    WeightLiftingFrame frame4 = WeightLiftingFrame(
+        assetsController.weightLiftingSprite['belll4_sm.png']!);
+    frame4.visible = false;
+    addChild(frame4);
+  }
+}
+
+class WeightLiftingFrame extends Sprite {
+  String name;
+
+  WeightLiftingFrame(SpriteTexture texture, {this.name = ''})
+      : super(texture: texture);
+}
+
 class BmiForm extends sp.Node {
   BmiForm();
 }
@@ -219,6 +253,7 @@ class GymWorld extends NodeWithSize {
   final FlyingUnhealthyFood unhelthyFood = FlyingUnhealthyFood();
   final BmiForm bmiForm = BmiForm();
   final RunningPunk runningPunk = RunningPunk();
+  final WeightLifting weightLifting = WeightLifting();
   GymWorld() : super(const Size(2048.0, 2048.0)) {
     final AssetsController assetsController = Get.find<AssetsController>();
 
@@ -229,6 +264,8 @@ class GymWorld extends NodeWithSize {
     addChild(gymbackground);
     runningPunk.position = const Offset(1024, 1250);
     addChild(runningPunk);
+    weightLifting.position = const Offset(1300, 1250);
+    addChild(weightLifting);
     addChild(helthyFood);
     addChild(unhelthyFood);
     bmiForm.position = const Offset(80, 510);

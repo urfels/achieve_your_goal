@@ -138,9 +138,11 @@ class SimulationController extends GetxController
     final AssetsController assetsController = Get.find<AssetsController>();
     List<sp.Node> punkChildren =
         assetsController.gymWorld.value.runningPunk.children;
+    List<sp.Node> lifterChildren =
+        assetsController.gymWorld.value.weightLifting.children;
 
     var i = 0;
-    for (var x = 0; x < dayduration.value;) {
+    for (var x = 0; x < dayduration.value * 0.6;) {
       if (!simulate.value) {
         break;
       }
@@ -152,6 +154,23 @@ class SimulationController extends GetxController
       i += 1;
       if (i >= punkChildren.length) {
         i = 0;
+      }
+      x += delay;
+      update();
+    }
+    var y = 0;
+    for (var x = 0; x < dayduration.value * 0.3;) {
+      if (!simulate.value) {
+        break;
+      }
+      lifterChildren.elementAt(y).visible = true;
+      update();
+      int delay = 50;
+      await Future.delayed(Duration(milliseconds: delay));
+      lifterChildren.elementAt(y).visible = false;
+      y += 1;
+      if (y >= lifterChildren.length) {
+        y = 0;
       }
       x += delay;
       update();

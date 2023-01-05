@@ -57,7 +57,7 @@ class SimulationController extends GetxController
       calculateBmiDependencies(newBmi, colorIndex);
       update();
       tage.value++;
-      runPunk(
+      animationMovement(
         dayDuration,
         simulate,
         person,
@@ -159,8 +159,8 @@ class SimulationController extends GetxController
     update();
   }
 
-  Future<void> runPunk(RxInt dayDuration, RxBool simulate, Rx<Person> person,
-      double easy, double middel, double hard) async {
+  Future<void> animationMovement(RxInt dayDuration, RxBool simulate,
+      Rx<Person> person, double easy, double middel, double hard) async {
     final AssetsController assetsController = Get.find<AssetsController>();
     List<sp.Node> punkChildren =
         assetsController.gymWorld.value.runningPunk.children;
@@ -168,6 +168,7 @@ class SimulationController extends GetxController
         assetsController.gymWorld.value.weightLifting.children;
     List<sp.Node> sleepChildren =
         assetsController.gymWorld.value.sleep.children;
+    double animationFactor = getAnimationFactor(dayDuration);
     double punkDuration = getPunkDuration(person, dayDuration);
     var i = 0;
     for (var x = 0; x < punkDuration;) {
@@ -176,7 +177,7 @@ class SimulationController extends GetxController
       }
       punkChildren.elementAt(i).visible = true;
       update();
-      int delay = 50;
+      int delay = (50 * animationFactor).toInt();
       await Future.delayed(Duration(milliseconds: delay));
       punkChildren.elementAt(i).visible = false;
       i += 1;
@@ -194,7 +195,7 @@ class SimulationController extends GetxController
       }
       lifterChildren.elementAt(y).visible = true;
       update();
-      int delay = 50;
+      int delay = (50 * animationFactor).toInt();
       await Future.delayed(Duration(milliseconds: delay));
       lifterChildren.elementAt(y).visible = false;
       y += 1;
@@ -212,7 +213,7 @@ class SimulationController extends GetxController
       }
       sleepChildren.elementAt(f).visible = true;
       update();
-      int delay = 50;
+      int delay = (50 * animationFactor).toInt();
       await Future.delayed(Duration(milliseconds: delay));
       sleepChildren.elementAt(f).visible = false;
       f += 1;
@@ -221,6 +222,16 @@ class SimulationController extends GetxController
       }
       c += delay;
       update();
+    }
+  }
+
+  getAnimationFactor(RxInt dayDuration) {
+    if (dayDuration.value == 12000) {
+      return 2.0;
+    } else if (dayDuration.value == 9000) {
+      return 1.5;
+    } else {
+      return 1.0;
     }
   }
 

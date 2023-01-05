@@ -291,7 +291,7 @@ class DaySecondsFormField extends StatelessWidget {
   final int daySecondsController;
   DaySecondsFormField({Key? key, required this.daySecondsController})
       : super(key: key);
-  final List<int> daySeconds = [6000, 3000, 1500, 750];
+  final List<int> daySeconds = [6000, 9000, 12000];
 
   @override
   Widget build(BuildContext context) {

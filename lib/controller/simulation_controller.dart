@@ -31,11 +31,17 @@ class SimulationController extends GetxController
       // um Schnwankungen im Essverhalten zu Simulieren
       double addedWeight =
           ((person.value.kcalZufuhr + randomInt(-300, 800)) / 7000);
+
+      List sportTime = getSportTime(
+        person.value.trainingEasy,
+        person.value.trainigMiddel,
+        person.value.trainingHard,
+      );
+      double trainEasy = sportTime[0];
+      double trainMiddel = sportTime[1];
+      double trainHard = sportTime[2];
       double usedKcal = await calculateKcalThrowSport(
-          person.value.trainingEasy,
-          person.value.trainigMiddel,
-          person.value.trainingHard,
-          person.value.weight);
+          trainEasy, trainMiddel, trainHard, person.value.weight);
       double newWeight =
           (person.value.weight - performanceTurnover + addedWeight - usedKcal)
               .toPrecision(2);
@@ -51,7 +57,14 @@ class SimulationController extends GetxController
       calculateBmiDependencies(newBmi, colorIndex);
       update();
       tage.value++;
-      runPunk(dayDuration, simulate);
+      runPunk(
+        dayDuration,
+        simulate,
+        person,
+        trainEasy,
+        trainMiddel,
+        trainHard,
+      );
       await Future.delayed(Duration(milliseconds: dayDuration.value));
     }
   }
@@ -109,14 +122,26 @@ class SimulationController extends GetxController
     return basalMetabolism;
   }
 
-  // Gausschische Verteilte Zufallszahle eingebaut um trainings Zeiten
-  //die Ausfallen und mal kürzer oder länger sind zu Simulieren
-  calculateKcalThrowSport(int easy, int middel, int hard, double weight) {
-    double kcalEasy = (5.5 / 60 * (easy * gaussianDistribution(2)) * weight);
-    double kcalMiddel = (8 / 60 * (middel * gaussianDistribution(2)) * weight);
-    double kcalHard = (11 / 60 * (hard * gaussianDistribution(2)) * weight);
+  calculateKcalThrowSport(
+      double easy, double middel, double hard, double weight) {
+    double kcalEasy = (5.5 / 60 * easy * weight);
+    double kcalMiddel = (8 / 60 * middel * weight);
+    double kcalHard = (11 / 60 * hard * weight);
     double kcaltotal = (kcalEasy + kcalMiddel + kcalHard) / 7000;
     return kcaltotal;
+  }
+
+  // Gausschische Verteilte Zufallszahle eingebaut um trainings Zeiten
+  //die Ausfallen und mal kürzer oder länger sind zu Simulieren
+  getSportTime(
+    int easy,
+    int middel,
+    int hard,
+  ) {
+    double trainEasy = easy * gaussianDistribution(2);
+    double trainMiddel = middel * gaussianDistribution(2);
+    double trainHard = hard * gaussianDistribution(2);
+    return [trainEasy, trainMiddel, trainHard];
   }
 
   calculatePerformanceTurnover(double basicMetabolism, double pal) {
@@ -134,15 +159,18 @@ class SimulationController extends GetxController
     update();
   }
 
-  Future<void> runPunk(RxInt dayduration, RxBool simulate) async {
+  Future<void> runPunk(RxInt dayDuration, RxBool simulate, Rx<Person> person,
+      double easy, double middel, double hard) async {
     final AssetsController assetsController = Get.find<AssetsController>();
     List<sp.Node> punkChildren =
         assetsController.gymWorld.value.runningPunk.children;
     List<sp.Node> lifterChildren =
         assetsController.gymWorld.value.weightLifting.children;
-
+    List<sp.Node> sleepChildren =
+        assetsController.gymWorld.value.sleep.children;
+    double punkDuration = getPunkDuration(person, dayDuration);
     var i = 0;
-    for (var x = 0; x < dayduration.value * 0.6;) {
+    for (var x = 0; x < punkDuration;) {
       if (!simulate.value) {
         break;
       }
@@ -158,8 +186,9 @@ class SimulationController extends GetxController
       x += delay;
       update();
     }
+    double weightDuration = getWeightDuration(easy, middel, hard, dayDuration);
     var y = 0;
-    for (var x = 0; x < dayduration.value * 0.3;) {
+    for (var z = 0; z < weightDuration;) {
       if (!simulate.value) {
         break;
       }
@@ -172,9 +201,34 @@ class SimulationController extends GetxController
       if (y >= lifterChildren.length) {
         y = 0;
       }
-      x += delay;
+      z += delay;
       update();
     }
+    var f = 0;
+    double sleepDuration = dayDuration.value - (weightDuration + punkDuration);
+    for (var c = 0; c < sleepDuration;) {
+      if (!simulate.value) {
+        break;
+      }
+      sleepChildren.elementAt(f).visible = true;
+      update();
+      int delay = 50;
+      await Future.delayed(Duration(milliseconds: delay));
+      sleepChildren.elementAt(f).visible = false;
+      f += 1;
+      if (f >= sleepChildren.length) {
+        f = 0;
+      }
+      c += delay;
+      update();
+    }
+  }
+
+  getWeightDuration(
+      double easy, double middel, double hard, RxInt dayDuration) {
+    double trainingDuration = easy + middel + hard;
+    double trainingPercent = ((trainingDuration * 100) / 1440) / 100;
+    return trainingPercent * dayDuration.value;
   }
 
   void updateVariables(Rx<Person> person, String kcal, String trainEasy,
@@ -222,5 +276,19 @@ class SimulationController extends GetxController
     final AssetsController assetsController = Get.find<AssetsController>();
     return BmiFormSingle(assetsController.sprites2[textureName]!,
         name: textureName);
+  }
+
+  getPunkDuration(Rx<Person> person, RxInt dayDuration) {
+    if (person.value.pal == 1.2) {
+      return 0.042 * dayDuration.value;
+    } else if (person.value.pal == 1.5) {
+      return 0.16 * dayDuration.value;
+    } else if (person.value.pal == 1.7) {
+      return 0.25 * dayDuration.value;
+    } else if (person.value.pal == 1.9) {
+      return 0.375 * dayDuration.value;
+    } else {
+      return 0.41 * dayDuration.value;
+    }
   }
 }

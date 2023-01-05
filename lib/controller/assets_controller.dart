@@ -14,6 +14,7 @@ class AssetsController extends GetxController {
   late SpriteSheet sprites2;
   late SpriteSheet runPunkSprite;
   late SpriteSheet weightLiftingSprite;
+  late SpriteSheet sleepSprite;
   late Rx<GymWorld> gymWorld;
 
   @override
@@ -39,7 +40,8 @@ class AssetsController extends GetxController {
       'assets/images/bmi_forms.png',
       'assets/images/background.jpg',
       'assets/images/runpunk.png',
-      'assets/images/bell.png'
+      'assets/images/bell.png',
+      'assets/images/sleep.png'
     ]);
     // ignore: use_build_context_synchronously
     String json = await DefaultAssetBundle.of(context)
@@ -68,6 +70,13 @@ class AssetsController extends GetxController {
     weightLiftingSprite = SpriteSheet(
       image: images['assets/images/bell.png']!,
       jsonDefinition: json4,
+    );
+    // ignore: use_build_context_synchronously
+    String json5 = await DefaultAssetBundle.of(context)
+        .loadString('assets/images/sleepspritesheet.json');
+    sleepSprite = SpriteSheet(
+      image: images['assets/images/sleep.png']!,
+      jsonDefinition: json5,
     );
   }
 }

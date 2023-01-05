@@ -237,6 +237,34 @@ class WeightLiftingFrame extends Sprite {
       : super(texture: texture);
 }
 
+class Sleep extends sp.Node {
+  final AssetsController assetsController = Get.find<AssetsController>();
+
+  Sleep() {
+    SleepFrame frame0 = SleepFrame(assetsController.sleepSprite['sleep0.png']!);
+    frame0.visible = false;
+    addChild(frame0);
+    SleepFrame frame1 = SleepFrame(assetsController.sleepSprite['sleep1.png']!);
+    frame1.visible = false;
+    addChild(frame1);
+    SleepFrame frame2 = SleepFrame(assetsController.sleepSprite['sleep2.png']!);
+    frame2.visible = false;
+    addChild(frame2);
+    SleepFrame frame3 = SleepFrame(assetsController.sleepSprite['sleep3.png']!);
+    frame3.visible = false;
+    addChild(frame3);
+    SleepFrame frame4 = SleepFrame(assetsController.sleepSprite['sleep4.png']!);
+    frame4.visible = false;
+    addChild(frame4);
+  }
+}
+
+class SleepFrame extends Sprite {
+  String name;
+
+  SleepFrame(SpriteTexture texture, {this.name = ''}) : super(texture: texture);
+}
+
 class BmiForm extends sp.Node {
   BmiForm();
 }
@@ -254,6 +282,7 @@ class GymWorld extends NodeWithSize {
   final BmiForm bmiForm = BmiForm();
   final RunningPunk runningPunk = RunningPunk();
   final WeightLifting weightLifting = WeightLifting();
+  final Sleep sleep = Sleep();
   GymWorld() : super(const Size(2048.0, 2048.0)) {
     final AssetsController assetsController = Get.find<AssetsController>();
 
@@ -266,6 +295,8 @@ class GymWorld extends NodeWithSize {
     addChild(runningPunk);
     weightLifting.position = const Offset(1300, 1250);
     addChild(weightLifting);
+    sleep.position = const Offset(1300, 1250);
+    addChild(sleep);
     addChild(helthyFood);
     addChild(unhelthyFood);
     bmiForm.position = const Offset(80, 510);

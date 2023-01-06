@@ -23,7 +23,9 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
+        body: Container(
+      color: Colors.grey.shade300,
+      child: Center(
           child: Column(children: <Widget>[
         const Spacer(
           flex: 1,
@@ -111,6 +113,6 @@ class HomeScreen extends StatelessWidget {
           ]),
         )
       ])),
-    );
+    ));
   }
 }

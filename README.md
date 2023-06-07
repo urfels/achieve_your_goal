@@ -19,4 +19,4 @@ Dies ist eine Abnehmsimulation, welche mein Berufsschulprojekt im 3.Lehrjahr mei
 
 ### Build For
 
-- Windows
+- Windows 10

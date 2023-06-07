@@ -1,16 +1,18 @@
 # achieve_your_goal
 
-A new Flutter project.
+### About achieve_your_goal
 
-## Getting Started
+Dies ist eine Abnehmsimulation, welche mein Berufsschulprojekt im 3.Lehrjahr meiner Ausbildung zum Fachinformatiker gewesen ist.
 
-This project is a starting point for a Flutter application.
+### Es wurden u.a. folgende Anforderungen an dieses Projekt gestellt:
 
-A few resources to get you started if this is your first Flutter project:
+- Die Software sollte den Ansprüchen einer Simulation genügen.
+- Es sollten Zufallsparameter nach der Normalverteilung und der Gaußschen Verteilung in die Logik eingebaut werden.
+- Die Software sollte eine Animation beinhalten.
+- Cleancode Kriterien sollten eingehalten werden
+- Das Endprodukt sollte auf Computern mit Windows Betriebssystem lauffähig sein.
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+### Build With
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- Dart
+- Flutter

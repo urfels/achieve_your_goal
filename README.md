@@ -2,7 +2,8 @@
 
 ### About achieve_your_goal
 
-Dies ist eine Abnehmsimulation, welche mein Berufsschulprojekt im 3.Lehrjahr meiner Ausbildung zum Fachinformatiker gewesen ist.
+Dies ist eine Abnehmsimulation, welche mein Berufsschulprojekt im 3.Lehrjahr meiner Ausbildung zum Fachinformatiker gewesen ist. <br>
+Das Projekt ist im Zeitraum von Sptember 2022 bis zum Februar 2023 entstanden.
 
 ### Es wurden u.a. folgende Anforderungen an dieses Projekt gestellt:
 

@@ -16,3 +16,7 @@ Dies ist eine Abnehmsimulation, welche mein Berufsschulprojekt im 3.Lehrjahr mei
 
 - Dart
 - Flutter
+
+### Build For
+
+- Windows
